@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Journey</title>
+    <style>
+        /* --- CSS Variables for Theming --- */
+        :root {
+            --bg-color: #f8f5ff; /* Lighter, softer background */
+            --header-bg: rgba(250, 245, 255, 0.95); /* More subtle header */
+            --card-bg: #ffffff;
+            --accent-color-1: #9d4edd; /* More vibrant purple */
+            --accent-color-2: #e0b1ff; /* Lighter purple accent */
+            --accent-gradient: linear-gradient(135deg, #d0a0ff, #9d4edd);
+            --text-color: #333;
+            --heading-color: var(--accent-color-1);
+            --heart-color: #ff6b81;
+            --timer-bg: #fff6fa;
+            --timer-text: var(--heart-color);
+            --shadow-color: rgba(160, 108, 213, 0.15);
+            --fab-bg: var(--accent-color-1);
+            --fab-color: white;
+            --toggle-icon: '🌙'; /* Moon for light mode */
+            --card-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1425;
+            --header-bg: rgba(26, 20, 37, 0.95);
+            --card-bg: #2d1f42;
+            --accent-color-1: #b862ff;
+            --accent-color-2: #d4a5ff;
+            --accent-gradient: linear-gradient(135deg, #663399, #4a1f82);
+            --text-color: #e0e0e0;
+            --heading-color: var(--accent-color-2);
+            --heart-color: #ff8fa3;
+            --timer-bg: #3d2952;
+            --timer-text: #ffc2d1;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --fab-bg: var(--accent-color-2);
+            --fab-color: #1a1425;
+            --toggle-icon: '☀️'; /* Sun for dark mode */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            position: sticky;
+            top: 0;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(160, 108, 213, 0.1);
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--heading-color);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo::before {
+            content: '💖';
+            font-size: 18px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-icon {
+            width: 22px;
+            height: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            order: 2;
+        }
+
+        .menu-line {
+            height: 2px;
+            background-color: var(--heading-color);
+            border-radius: 2px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .menu-icon.active .menu-line:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .menu-icon.active .menu-line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-icon.active .menu-line:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .dark-mode-toggle {
+            font-size: 18px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--heading-color);
+            order: 1;
+            transition: var(--transition);
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(160, 108, 213, 0.1);
+            width: 32px;
+            height: 32px;
+        }
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            background-color: rgba(160, 108, 213, 0.2);
+        }
+        .dark-mode-toggle::before {
+            content: var(--toggle-icon);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 15px 10px;
+        }
+
+        /* --- Carousel --- */
+        .photo-carousel {
+            background: var(--accent-gradient);
+            margin: 15px auto;
+            border-radius: var(--card-radius);
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px var(--shadow-color);
+            max-width: 100%;
+            transition: var(--transition);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .carousel-slide.active { opacity: 1; }
+
+        .carousel-image-container {
+            width: 100%;
+            height: 100%;
+        }
+        .carousel-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .carousel-text-content {
+            color: white;
+            font-size: clamp(24px, 5vw, 36px);
+            font-weight: bold;
+            text-align: center;
+            padding: 0 20px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-text-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+            user-select: none;
+            transition: var(--transition);
+            touch-action: manipulation;
+        }
+        .arrow:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+        .arrow-left { left: 10px; }
+        .arrow-right { right: 10px; }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            z-index: 2;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            touch-action: manipulation;
+        }
+        .dot.active {
+            background-color: white;
+            transform: scale(1.3);
+        }
+
+        /* --- Couple Section --- */
+        .couple-section {
+            background-color: var(--card-bg);
+            margin: 25px auto;
+            border-radius: var(--card-radius);
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 6px 20px var(--shadow-color);
+            max-width: 100%;
+            transition: var(--transition);
+        }
+
+        .photos-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .photo-circle {
+            width: 100px;
+            height: 100px;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            border: 3px solid white;
+            transition: var(--transition);
+        }
+        .photo-circle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .photo-circle {
+            border-color: var(--card-bg);
+        }
+        .photo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .heart-container { position: relative; z-index: 1; }
+        .heart {
+            width: 36px;
+            height: 36px;
+            background-color: var(--heart-color);
+            position: relative;
+            transform: rotate(-45deg);
+            margin: 0 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            animation: gentlePulse 1.8s infinite ease-in-out;
+            transition: var(--transition);
+        }
+        @keyframes gentlePulse {
+            0%, 100% { transform: rotate(-45deg) scale(1); opacity: 0.9; }
+            50% { transform: rotate(-45deg) scale(1.12); opacity: 1; }
+        }
+        .heart:before, .heart:after {
+            content: "";
+            width: 36px;
+            height: 36px;
+            background-color: var(--heart-color);
+            border-radius: 50%;
+            position: absolute;
+            transition: var(--transition);
+        }
+        .heart:before { top: -18px; left: 0; }
+        .heart:after { top: 0; left: 18px; }
+
+        .timer-container {
+            background-color: var(--timer-bg);
+            padding: 10px 15px;
+            border-radius: 50px;
+            margin-top: 15px;
+            width: auto;
+            max-width: 95%;
+            text-align: center;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        .timer-text {
+            font-size: clamp(14px, 3.5vw, 18px);
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            color: var(--timer-text);
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        /* --- Gallery --- */
+        .gallery-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin: 35px 0 15px 0;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 25px auto;
+            padding: 20px 15px;
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: 0 6px 20px var(--shadow-color);
+            max-width: 100%;
+            transition: var(--transition);
+        }
+
+        .gallery-photo {
+            aspect-ratio: 3/4;
+            background-color: var(--bg-color);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            touch-action: manipulation;
+        }
+        .gallery-photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0);
+            transition: var(--transition);
+        }
+        .gallery-photo:hover {
+            transform: scale(1.04) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .gallery-photo:hover::after {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .gallery-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .gallery-photo:hover img {
+            transform: scale(1.05);
+        }
+
+        /* --- FAB --- */
+        .add-memory {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background-color: var(--fab-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--fab-color);
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            cursor: pointer;
+            z-index: 90;
+            transition: var(--transition);
+            border: none;
+            touch-action: manipulation;
+        }
+        .add-memory:hover, .add-memory:active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* --- Custom Audio Button --- */
+        #audio-control-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 36px;
+            height: 36px;
+            background-color: var(--fab-bg);
+            color: var(--fab-color);
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            z-index: 90;
+            transition: var(--transition);
+            touch-action: manipulation;
+        }
+        #audio-control-button:hover, #audio-control-button:active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        #background-music {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        /* Menu container styling */
+        .menu-container {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            background-color: var(--card-bg);
+            width: 200px;
+            border-radius: 0 0 0 16px;
+            box-shadow: 0 10px 20px var(--shadow-color);
+            z-index: 99;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .menu-item {
+            display: block;
+            padding: 14px 16px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(160, 108, 213, 0.1);
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        .menu-item:hover, .menu-item:active {
+            background-color: var(--bg-color);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Photo viewer overlay */
+        .photo-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .photo-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .photo-viewer-image {
+            max-width: 92%;
+            max-height: 85%;
+            object-fit: contain;
+            border: 2px solid white;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .photo-viewer-overlay.active .photo-viewer-image {
+            transform: scale(1);
+        }
+        
+        .photo-viewer-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 36px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: manipulation;
+        }
+        
+        .photo-viewer-close:hover, .photo-viewer-close:active {
+            transform: rotate(90deg);
+        }
+
+        /* --- Media Queries --- */
+        /* Small devices (landscape phones) */
+        @media (min-width: 576px) {
+            header { padding: 15px 20px; }
+            .logo { font-size: 22px; }
+            .logo::before { font-size: 20px; }
+            .photo-carousel { height: 280px; }
+            .gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .container { padding: 20px 15px; }
+        }
+        
+        /* Medium devices (tablets) */
+        @media (min-width: 768px) {
+            header { padding: 16px 35px; }
+            .logo { font-size: 24px; }
+            .dark-mode-toggle { width: 36px; height: 36px; }
+            .menu-icon { width: 24px; height: 18px; }
+            .photo-carousel { height: 320px; border-radius: 18px; }
+            .photo-circle { width: 120px; height: 120px; }
+            .heart { 
+                width: 42px; 
+                height: 42px;
+                margin: 0 12px;
+            }
+            .heart:before, .heart:after { 
+                width: 42px; 
+                height: 42px; 
+            }
+            .heart:before { top: -21px; }
+            .heart:after { left: 21px; }
+            .timer-text { font-size: 16px; letter-spacing: 1px; }
+            .gallery { 
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+                gap: 20px;
+                padding: 25px 20px;
+            }
+            .couple-section { padding: 30px 20px; }
+            .gallery-title { font-size: 26px; }
+            .add-memory, #audio-control-button { 
+                width: 48px; 
+                height: 48px;
+                bottom: 25px;
+            }
+            .add-memory { right: 25px; }
+            #audio-control-button { left: 25px; font-size: 18px; }
+        }
+        
+        /* Large devices (desktops) */
+        @media (min-width: 992px) {
+            .photo-carousel { height: 380px; }
+            .photo-circle { width: 140px; height: 140px; }
+            .heart { 
+                width: 48px; 
+                height: 48px;
+                margin: 0 15px;
+            }
+            .heart:before, .heart:after { 
+                width: 48px; 
+                height: 48px; 
+            }
+            .heart:before { top: -24px; }
+            .heart:after { left: 24px; }
+            .gallery { 
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+                gap: 24px;
+                padding: 30px 25px;
+            }
+        }
+        
+        /* Animation for page elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .couple-section, .gallery, .photo-carousel {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .gallery {
+            animation-delay: 0.2s;
+        }
+        
+        /* Touch improvements for mobile */
+        @media (hover: none) {
+            .arrow, .dot, .gallery-photo, .add-memory, #audio-control-button, .photo-viewer-close {
+                cursor: default;
+            }
+            
+            .gallery-photo:active {
+                transform: scale(0.98);
+            }
+            
+            .arrow:active {
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Element -->
+    <audio id="background-music" loop>
+        <source src="/photo/ssstik.io_1744239298601.mp3" type="audio/mpeg">
+        Your browser doesn't support the audio element.
+    </audio>
+    <!-- Custom Audio Control Button -->
+    <button id="audio-control-button" aria-label="Play/Pause Music">
+        ▶️
+    </button>
+
+    <header>
+        <div class="logo">Love Journey</div>
+        <div class="header-controls">
+            <button class="dark-mode-toggle" aria-label="Toggle Dark Mode"></button>
+            <div class="menu-icon" aria-label="Toggle Menu">
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="photo-carousel" aria-label="Milestones Carousel">
+            <!-- Slide 1: Using Image -->
+            <div class="carousel-slide active">
+                <div class="carousel-image-container">
+                    <img src="photo/a1.jpg" alt="Our First Date">
+                </div>
+            </div>
+            <!-- Slide 2: Using Text -->
+            <div class="carousel-slide">
+                <div class="carousel-text-content">
+                    <img src="photo/a2.jpg" alt="Special Moment">
+                </div>
+            </div>
+            <!-- Slide 3: Using Image -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                    <img src="photo/a3.jpg" alt="Our Wedding Day">
+                </div>
+            </div>
+            <!-- Slide 4: Using Text -->
+            <div class="carousel-slide">
+                <div class="carousel-text-content">
+                    <img src="photo/a4.jpg" alt="Celebration">
+                </div>
+            </div>
+
+            <div class="arrow arrow-left" aria-label="Previous Slide">←</div>
+            <div class="arrow arrow-right" aria-label="Next Slide">→</div>
+            <div class="carousel-dots">
+                <button class="dot active" data-index="0" aria-label="Go to slide 1"></button>
+                <button class="dot" data-index="1" aria-label="Go to slide 2"></button>
+                <button class="dot" data-index="2" aria-label="Go to slide 3"></button>
+                <button class="dot" data-index="3" aria-label="Go to slide 4"></button>
+            </div>
+        </div>
+
+        <section class="couple-section" aria-labelledby="couple-heading">
+            <div class="photos-container">
+                <div class="photo-circle">
+                    <img src="photo/1.jpg" alt="Your Photo">
+                </div>
+                <div class="heart-container">
+                    <div class="heart"></div>
+                </div>
+                <div class="photo-circle">
+                    <img src="photo/2.jpg" alt="Their Photo">
+                </div>
+            </div>
+            <div class="timer-container">
+                <p class="timer-text" aria-live="polite">Loading...</p>
+            </div>
+        </section>
+
+        <section class="gallery-section" aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading" class="gallery-title">Our Memories</h2>
+            <div class="gallery">
+                <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 1 - Description">
+                </div>
+                <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 2 - Description">
+                </div>
+                <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/474x/ba/49/05/ba4905d51092c24538959b1d128b7625.jpg" alt="Memory 3 - Description">
+                </div>
+                <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/736x/fc/e6/98/fce69870373e3012c21baccc536c2d0c.jpg" alt="Memory 4 - Description">
+                </div>
+                <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 5 - Description">
+                </div>
+                <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 6 - Description">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <button class="add-memory" aria-label="Add New Memory">+</button>
+
+    <div class="menu-container">
+        <a href="#" class="menu-item">Home</a>
+        <a href="#" class="menu-item">Our Story</a>
+        <a href="#" class="menu-item">Milestones</a>
+        <a href="#" class="menu-item">Contact</a>
+    </div>
+
+    <div class="photo-viewer-overlay">
+        <img class="photo-viewer-image" src="" alt="Enlarged photo">
+        <button class="photo-viewer-close" aria-label="Close Image">×</button>
+    </div>
+
+    <script>
+       // DOM Elements
+const darkModeToggle = document.querySelector('.dark-mode-toggle');
+const menuIcon = document.querySelector('.menu-icon');
+const carousel = document.querySelector('.photo-carousel');
+const carouselSlides = document.querySelectorAll('.carousel-slide');
+const dots = document.querySelectorAll('.dot');
+const arrowLeft = document.querySelector('.arrow-left');
+const arrowRight = document.querySelector('.arrow-right');
+const timerText = document.querySelector('.timer-text');
+const audioButton = document.getElementById('audio-control-button');
+const backgroundMusic = document.getElementById('background-music');
+const addMemoryButton = document.querySelector('.add-memory');
+const galleryPhotos = document.querySelectorAll('.gallery-photo');
+const menuContainer = document.querySelector('.menu-container');
+const photoViewerOverlay = document.querySelector('.photo-viewer-overlay');
+const photoViewerImage = document.querySelector('.photo-viewer-image');
+const photoViewerClose = document.querySelector('.photo-viewer-close');
+
+// Check device type
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+// Initialize variables
+let currentSlide = 0;
+let isMenuOpen = false;
+let startX, moveX;
+let touchStartTime = 0;
+let isAudioPlaying = false;
+let autoSlideInterval;
+
+// Start date for timer (replace with your actual date)
+const startDate = new Date('2025-04-08T00:00:00');
+
+// Dark Mode Toggle
+darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    // Save user preference
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode.toString());
+});
+
+// Check saved dark mode preference
+const loadDarkModePreference = () => {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+};
+loadDarkModePreference();
+
+// Menu Toggle
+menuIcon.addEventListener('click', toggleMenu);
+document.addEventListener('click', (e) => {
+    if (isMenuOpen && !menuContainer.contains(e.target) && !menuIcon.contains(e.target)) {
+        toggleMenu();
+    }
+});
+
+function toggleMenu() {
+    menuIcon.classList.toggle('active');
+    isMenuOpen = !isMenuOpen;
+    menuContainer.style.transform = isMenuOpen ? 'translateX(0)' : 'translateX(100%)';
+}
+
+// Carousel Functions
+function showSlide(index) {
+    carouselSlides.forEach(slide => {
+        slide.classList.remove('active');
+    });
+    dots.forEach(dot => {
+        dot.classList.remove('active');
+    });
+    
+    // Handle circular navigation
+    if (index >= carouselSlides.length) {
+        currentSlide = 0;
+    } else if (index < 0) {
+        currentSlide = carouselSlides.length - 1;
+    } else {
+        currentSlide = index;
+    }
+    
+    carouselSlides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+
+// Carousel Controls - Click Events
+arrowLeft.addEventListener('click', () => {
+    resetAutoSlide();
+    showSlide(currentSlide - 1);
+});
+
+arrowRight.addEventListener('click', () => {
+    resetAutoSlide();
+    showSlide(currentSlide + 1);
+});
+
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        resetAutoSlide();
+        showSlide(index);
+    });
+});
+
+// Touch events for carousel (mobile support)
+carousel.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    touchStartTime = new Date().getTime();
+    clearInterval(autoSlideInterval); // Pause auto-slide on touch
+}, { passive: true });
+
+carousel.addEventListener('touchmove', (e) => {
+    moveX = e.touches[0].clientX;
+}, { passive: true });
+
+carousel.addEventListener('touchend', (e) => {
+    if (!startX || !moveX) return;
+    
+    const diffX = startX - moveX;
+    const timeDiff = new Date().getTime() - touchStartTime;
+    
+    // Only register as swipe if movement is significant and fast enough
+    if (Math.abs(diffX) > 50 && timeDiff < 300) {
+        if (diffX > 0) {
+            // Swipe left, show next slide
+            showSlide(currentSlide + 1);
+        } else {
+            // Swipe right, show previous slide
+            showSlide(currentSlide - 1);
+        }
+    }
+    
+    startX = null;
+    moveX = null;
+    startAutoSlide(); // Resume auto-slide after touch
+}, { passive: true });
+
+// Auto-slide functionality
+function startAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        showSlide(currentSlide + 1);
+    }, 5000); // Change slide every 5 seconds
+}
+
+function resetAutoSlide() {
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+}
+
+// Timer Function
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+    
+    // Calculate time units
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    timerText.textContent = `${days} days, ${hours} hours, ${minutes} mins, ${seconds} secs`;
+}
+
+// Audio Control
+audioButton.addEventListener('click', toggleAudio);
+
+function toggleAudio() {
+    if (isAudioPlaying) {
+        backgroundMusic.pause();
+        audioButton.innerHTML = '▶️';
+    } else {
+        // Promise to handle autoplay restrictions
+        const playPromise = backgroundMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    audioButton.innerHTML = '⏸️';
+                })
+                .catch(error => {
+                    console.log('Autoplay prevented:', error);
+                    // Handle autoplay prevention (common on mobile)
+                    audioButton.innerHTML = '▶️';
+                    isAudioPlaying = false;
+                });
+        }
+    }
+    isAudioPlaying = !isAudioPlaying;
+}
+
+// Gallery Photo Viewer
+galleryPhotos.forEach(photo => {
+    photo.addEventListener('click', () => openPhotoViewer(photo));
+    
+    // For keyboard accessibility
+    photo.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openPhotoViewer(photo);
+        }
+    });
+});
+
+function openPhotoViewer(photo) {
+    const imgSrc = photo.querySelector('img').src;
+    const imgAlt = photo.querySelector('img').alt;
+    
+    photoViewerImage.src = imgSrc;
+    photoViewerImage.alt = imgAlt;
+    photoViewerOverlay.classList.add('active');
+    
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
+}
+
+photoViewerClose.addEventListener('click', closePhotoViewer);
+photoViewerOverlay.addEventListener('click', (e) => {
+    if (e.target === photoViewerOverlay) {
+        closePhotoViewer();
+    }
+});
+
+// Close on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && photoViewerOverlay.classList.contains('active')) {
+        closePhotoViewer();
+    }
+});
+
+function closePhotoViewer() {
+    photoViewerOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Add Memory Button
+addMemoryButton.addEventListener('click', () => {
+    // For this example, we'll just show an alert
+    // In a real app, this would open a form or modal
+    alert('Feature coming soon: Add your special memories here!');
+});
+
+// Improve performance on mobile
+if (isMobile) {
+    // Reduce animation complexity on mobile
+    document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
+    
+    // Handle orientation changes for responsive layout
+    window.addEventListener('orientationchange', () => {
+        // Small delay to allow resize to complete
+        setTimeout(() => {
+            // Adjust any elements that need tweaking after orientation change
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            
+            // Example: Adjust carousel height based on orientation
+            if (viewportWidth > viewportHeight) {
+                // Landscape
+                carousel.style.height = Math.min(280, viewportHeight * 0.6) + 'px';
+            } else {
+                // Portrait
+                carousel.style.height = Math.min(320, viewportHeight * 0.3) + 'px';
+            }
+        }, 200);
+    });
+    
+    // Optimize touch interfaces
+    document.querySelectorAll('.gallery-photo, .dot, .add-memory, #audio-control-button')
+        .forEach(elem => {
+            elem.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            }, { passive: true });
+            
+            elem.addEventListener('touchend', function() {
+                this.style.transform = '';
+            }, { passive: true });
+        });
+} else {
+    // Desktop specific enhancements
+    // Add hover effects that might be performance-intensive on mobile
+    galleryPhotos.forEach(photo => {
+        photo.addEventListener('mouseenter', () => {
+            photo.style.transform = 'scale(1.04) translateY(-5px)';
+        });
+        
+        photo.addEventListener('mouseleave', () => {
+            photo.style.transform = '';
+        });
+    });
+}
+
+// Initialize
+updateTimer();
+setInterval(updateTimer, 1000);
+startAutoSlide();
+
+// Add lazy loading for images to improve performance
+if ('loading' in HTMLImageElement.prototype) {
+    // Browser supports native lazy loading
+    document.querySelectorAll('img').forEach(img => {
+        img.loading = 'lazy';
+    });
+} else {
+    // Fallback for browsers that don't support lazy loading
+    // You could add a lazy loading library here
+    console.log('Browser does not support native lazy loading');
+}
+
+// Prevent accidental zooming on mobile devices when double-tapping interactive elements
+document.querySelectorAll('.gallery-photo, .arrow, .dot, .add-memory, #audio-control-button')
+    .forEach(elem => {
+        elem.style.touchAction = 'manipulation';
+    });
+
+// Handle initial page load optimization
+document.addEventListener('DOMContentLoaded', () => {
+    // Fade in content gradually to avoid jank
+    setTimeout(() => {
+        document.querySelectorAll('.couple-section, .gallery, .photo-carousel').forEach(elem => {
+            elem.style.opacity = '1';
+        });
+    }, 100);
+});
+
+// Service Worker Registration for PWA support
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(error => {
+                console.log('ServiceWorker registration failed:', error);
+            });
+    });
+}
+    </script>
