@@ -3,178 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love</title>
+    <title>Our Love Story</title>
+    <!-- Optional: Add Favicon -->
+    <!-- <link rel="icon" href="/path/to/favicon.ico" type="image/x-icon"> -->
     <style>
         /* --- CSS Variables for Theming --- */
         :root {
-            --bg-color: #ffffff; /* Lighter, softer background */
-            --header-bg: rgba(250, 245, 255, 0.95); /* More subtle header */
+            --bg-color: #fdfcff; /* Even lighter, softer background */
+            --header-bg: rgba(255, 253, 255, 0.9); /* Almost white header, more blur */
             --card-bg: #ffffff;
-            --accent-color-1: #9d4edd; /* More vibrant purple */
-            --accent-color-2: #e0b1ff; /* Lighter purple accent */
-            --accent-gradient: linear-gradient(135deg, #d0a0ff, #9d4edd);
-            --text-color: #333;
+            --accent-color-1: #a855f7; /* Adjusted vibrant purple (Tailwind violet-500) */
+            --accent-color-2: #d8b4fe; /* Lighter purple accent (Tailwind violet-300) */
+            --accent-gradient: linear-gradient(135deg, var(--accent-color-2), var(--accent-color-1));
+            --text-color: #374151; /* Darker gray for better contrast (Tailwind gray-700) */
             --heading-color: var(--accent-color-1);
-            --heart-color: #ff6b81;
-            --timer-bg: #fff6fa;
+            --heart-color: #f43f5e; /* Tailwind rose-500 */
+            --timer-bg: #fce7f3; /* Lighter pinkish (Tailwind pink-50) */
             --timer-text: var(--heart-color);
-            --shadow-color: rgba(160, 108, 213, 0.15);
+            --shadow-color: rgba(168, 85, 247, 0.1); /* Subtle purple shadow */
+            --shadow-hover-color: rgba(168, 85, 247, 0.2);
             --fab-bg: var(--accent-color-1);
             --fab-color: white;
             --toggle-icon: '🌙'; /* Moon for light mode */
-            --card-radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --card-radius: 1rem; /* 16px */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
         }
 
         body.dark-mode {
-            --bg-color: #1a1425;
-            --header-bg: rgba(26, 20, 37, 0.95);
-            --card-bg: #2d1f42;
-            --accent-color-1: #b862ff;
-            --accent-color-2: #d4a5ff;
-            --accent-gradient: linear-gradient(135deg, #663399, #4a1f82);
-            --text-color: #e0e0e0;
+            --bg-color: #111827; /* Tailwind gray-900 */
+            --header-bg: rgba(17, 24, 39, 0.9); /* Darker header, more blur */
+            --card-bg: #1f2937; /* Tailwind gray-800 */
+            --accent-color-1: #c084fc; /* Tailwind purple-400 */
+            --accent-color-2: #e9d5ff; /* Tailwind purple-200 */
+            --accent-gradient: linear-gradient(135deg, #581c87, #3b0764); /* Darker purple gradient */
+            --text-color: #d1d5db; /* Tailwind gray-300 */
             --heading-color: var(--accent-color-2);
-            --heart-color: #ff8fa3;
-            --timer-bg: #3d2952;
-            --timer-text: #ffc2d1;
-            --shadow-color: rgba(0, 0, 0, 0.3);
+            --heart-color: #fb7185; /* Tailwind rose-400 */
+            --timer-bg: #374151; /* Tailwind gray-700 */
+            --timer-text: var(--accent-color-2);
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            --shadow-hover-color: rgba(0, 0, 0, 0.35);
             --fab-bg: var(--accent-color-2);
-            --fab-color: #1a1425;
+            --fab-color: #1f2937; /* Dark text on light FAB */
             --toggle-icon: '☀️'; /* Sun for dark mode */
         }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding: 0;
-            margin: 0;
             min-height: 100vh;
-            transition: var(--transition);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             line-height: 1.6;
+            font-size: 16px; /* Base font size */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
+            padding: 0.8rem 1rem; /* Use rem for scalable padding */
             position: sticky;
             top: 0;
             background-color: var(--header-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 100;
-            border-bottom: 1px solid rgba(160, 108, 213, 0.1);
-            transition: var(--transition);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.1); /* Use accent color alpha */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        body.dark-mode header {
+            border-bottom-color: rgba(233, 213, 255, 0.1);
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 1.25rem; /* 20px */
             font-weight: 700;
             color: var(--heading-color);
-            transition: var(--transition);
+            transition: color var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem; /* 8px */
+            text-decoration: none;
         }
 
         .logo::before {
             content: '💖';
-            font-size: 18px;
+            font-size: 1.125rem; /* 18px */
+        }
+        .logo-text { /* Added span for potential text */
+           display: inline-block; /* Prevents wrapping issues */
         }
 
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1rem; /* 16px */
         }
 
         .menu-icon {
-            width: 22px;
-            height: 16px;
+            width: 24px; /* Slightly larger */
+            height: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             cursor: pointer;
-            order: 2;
+            order: 2; /* Keep menu icon last */
+            background: none;
+            border: none;
+            padding: 0; /* Remove default padding */
+            transition: transform 0.2s ease;
+        }
+        .menu-icon:hover {
+            transform: scale(1.1);
         }
 
         .menu-line {
-            height: 2px;
+            height: 2.5px; /* Slightly thicker */
             background-color: var(--heading-color);
-            border-radius: 2px;
-            transition: var(--transition);
+            border-radius: 3px;
+            transition: var(--transition), background-color 0.3s ease;
             transform-origin: center;
         }
 
         .menu-icon.active .menu-line:nth-child(1) {
-            transform: translateY(7px) rotate(45deg);
+            transform: translateY(7.75px) rotate(45deg);
         }
         .menu-icon.active .menu-line:nth-child(2) {
             opacity: 0;
             transform: scaleX(0);
         }
         .menu-icon.active .menu-line:nth-child(3) {
-            transform: translateY(-7px) rotate(-45deg);
+            transform: translateY(-7.75px) rotate(-45deg);
         }
 
         .dark-mode-toggle {
-            font-size: 18px;
+            font-size: 1.125rem; /* 18px */
             cursor: pointer;
             background: none;
             border: none;
             color: var(--heading-color);
-            order: 1;
-            transition: var(--transition);
-            padding: 6px;
+            order: 1; /* Keep dark mode toggle first */
+            transition: transform 0.2s ease, color var(--transition), background-color var(--transition);
+            padding: 0.5rem; /* 8px */
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background-color: rgba(160, 108, 213, 0.1);
-            width: 32px;
-            height: 32px;
+            background-color: transparent;
+            width: 40px; /* Consistent size */
+            height: 40px;
         }
         .dark-mode-toggle:hover {
             transform: scale(1.1);
-            background-color: rgba(160, 108, 213, 0.2);
+            background-color: rgba(168, 85, 247, 0.1);
+        }
+        body.dark-mode .dark-mode-toggle:hover {
+            background-color: rgba(233, 213, 255, 0.1);
         }
         .dark-mode-toggle::before {
             content: var(--toggle-icon);
+        }
+
+        main { /* Use main tag for primary content */
+            display: block; /* Ensure it behaves as a block element */
         }
 
         .container {
             width: 100%;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 15px 10px;
+            padding: 1.5rem 1rem; /* Consistent padding */
             /* Added padding-bottom to avoid FAB overlap */
-            padding-bottom: 80px;
+            padding-bottom: 6rem; /* Increased space for FABs */
         }
 
         /* --- Carousel --- */
         .photo-carousel {
             background: var(--accent-gradient);
-            margin: 15px auto;
+            margin: 1.5rem auto; /* Consistent margin */
             border-radius: var(--card-radius);
-            height: 250px;
+            /* Using aspect-ratio for responsive height */
+            aspect-ratio: 16 / 8; /* Adjust ratio as needed */
+            max-height: 400px; /* Max height constraint */
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 6px 20px var(--shadow-color);
-            max-width: 100%;
-            transition: var(--transition);
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: box-shadow var(--transition);
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(20px); /* For fade-in animation */
+            animation: fadeIn 0.6s ease-out 0.1s forwards;
         }
 
         .carousel-slide {
@@ -182,11 +216,11 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            display: flex;
+            transition: opacity 0.7s ease-in-out;
+            display: flex; /* Keep flex for potential text overlays */
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Clip content */
         }
         .carousel-slide.active { opacity: 1; }
 
@@ -197,122 +231,118 @@
         .carousel-image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block;
+            object-fit: cover; /* Cover ensures image fills space */
+            display: block; /* Removes bottom space */
         }
 
-        .carousel-text-content {
-            color: white;
-            font-size: clamp(24px, 5vw, 36px);
-            font-weight: bold;
-            text-align: center;
-            padding: 0 20px;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
-            width: 100%;
-            height: 100%;
-        }
-
-        .carousel-text-content img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        /* Removed .carousel-text-content styles as they were simple text/image placeholders */
 
         .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 22px;
+            font-size: 1.5rem; /* 24px */
             color: rgba(255, 255, 255, 0.9);
-            background-color: rgba(0, 0, 0, 0.15);
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 2;
             user-select: none;
-            transition: var(--transition);
-            touch-action: manipulation;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            touch-action: manipulation; /* Improve touch responsiveness */
+            border: none; /* Ensure it's treated as a button */
         }
         .arrow:hover {
-            background-color: rgba(0, 0, 0, 0.3);
-            color: white;
+            background-color: rgba(0, 0, 0, 0.4);
+            transform: translateY(-50%) scale(1.1);
         }
-        .arrow-left { left: 10px; }
-        .arrow-right { right: 10px; }
+        .arrow:active {
+             background-color: rgba(0, 0, 0, 0.5);
+             transform: translateY(-50%) scale(1.05);
+        }
+        .arrow-left { left: 1rem; }
+        .arrow-right { right: 1rem; }
 
         .carousel-dots {
             position: absolute;
-            bottom: 12px;
+            bottom: 1rem; /* Consistent spacing */
             display: flex;
             justify-content: center;
             width: 100%;
             z-index: 2;
+            gap: 0.5rem; /* Space between dots */
         }
         .dot {
-            width: 8px;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.5);
+            width: 10px; /* Slightly larger dots */
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            margin: 0 5px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: background-color 0.3s ease, transform 0.3s ease;
             border: none;
+            padding: 0; /* Remove default padding */
             touch-action: manipulation;
         }
         .dot.active {
             background-color: white;
-            transform: scale(1.3);
+            transform: scale(1.2);
+        }
+        .dot:hover:not(.active) {
+             background-color: rgba(255, 255, 255, 0.7);
         }
 
         /* --- Couple Section --- */
         .couple-section {
             background-color: var(--card-bg);
-            margin: 25px auto;
+            margin: 2rem auto; /* Consistent margin */
             border-radius: var(--card-radius);
-            padding: 25px 15px;
+            padding: 2rem 1rem; /* More padding */
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 6px 20px var(--shadow-color);
-            max-width: 100%;
+            box-shadow: 0 8px 25px var(--shadow-color);
             transition: var(--transition);
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(20px); /* For fade-in animation */
+            animation: fadeIn 0.6s ease-out 0.2s forwards;
         }
 
         .photos-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: center; /* Center items */
+            align-items: center; /* Vertically align */
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            max-width: 450px; /* Slightly larger max width */
+            margin-bottom: 1.5rem; /* Space below photos */
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            gap: 1rem; /* Space between elements */
         }
 
         .photo-circle {
-            width: 100px;
-            height: 100px;
-            background-color: var(--bg-color);
+            width: 110px; /* Slightly larger */
+            height: 110px;
+            background-color: var(--bg-color); /* Match body bg */
             border-radius: 50%;
-            display: flex;
+            display: flex; /* Use flex for centering image */
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             overflow: hidden;
             position: relative;
-            border: 3px solid white;
+            border: 4px solid white; /* Thicker border */
             transition: var(--transition);
         }
         .photo-circle:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
         }
         body.dark-mode .photo-circle {
-            border-color: var(--card-bg);
+            border-color: var(--card-bg); /* Match card bg in dark mode */
         }
         .photo-circle img {
             width: 100%;
@@ -320,63 +350,71 @@
             object-fit: cover;
         }
 
-        .heart-container { position: relative; z-index: 1; }
+        .heart-container {
+             display: flex; /* Needed for centering heart */
+             align-items: center;
+             justify-content: center;
+             flex-shrink: 0; /* Prevent shrinking */
+             padding: 0 0.5rem; /* Space around heart */
+        }
         .heart {
-            width: 36px;
-            height: 36px;
+            width: 40px; /* Slightly larger */
+            height: 40px;
             background-color: var(--heart-color);
             position: relative;
             transform: rotate(-45deg);
-            margin: 0 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            animation: gentlePulse 1.8s infinite ease-in-out;
-            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            animation: gentlePulse 1.8s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955); /* Smoother cubic bezier */
+            transition: background-color var(--transition);
+            /* Ensure pseudo-elements inherit color */
+            border-radius: 2px; /* Slight rounding on base square */
         }
         @keyframes gentlePulse {
-            0%, 100% { transform: rotate(-45deg) scale(1); opacity: 0.9; }
-            50% { transform: rotate(-45deg) scale(1.12); opacity: 1; }
+            0%, 100% { transform: rotate(-45deg) scale(1); opacity: 0.95; }
+            50% { transform: rotate(-45deg) scale(1.15); opacity: 1; }
         }
-        .heart:before, .heart:after {
+        .heart::before, .heart::after {
             content: "";
-            width: 36px;
-            height: 36px;
-            background-color: var(--heart-color);
+            width: 40px;
+            height: 40px;
+            background-color: inherit; /* Inherit color */
             border-radius: 50%;
             position: absolute;
-            transition: var(--transition);
+            transition: background-color var(--transition);
         }
-        .heart:before { top: -18px; left: 0; }
-        .heart:after { top: 0; left: 18px; }
+        .heart::before { top: -20px; left: 0; }
+        .heart::after { top: 0; left: 20px; }
 
         .timer-container {
             background-color: var(--timer-bg);
-            padding: 10px 15px;
-            border-radius: 50px;
-            margin-top: 15px;
-            width: auto;
+            padding: 0.75rem 1.25rem; /* Adjust padding */
+            border-radius: 50px; /* Pill shape */
+            margin-top: 1.5rem; /* Consistent spacing */
+            width: auto; /* Fit content */
             max-width: 95%;
             text-align: center;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
             transition: var(--transition);
         }
         .timer-text {
-            font-size: clamp(14px, 3.5vw, 18px);
+            /* Use clamp for responsive font size */
+            font-size: clamp(0.875rem, 3.5vw, 1.125rem); /* 14px to 18px */
             font-weight: 600;
-            font-family: 'Courier New', monospace;
+            font-family: 'SF Mono', 'Fira Code', 'Source Code Pro', monospace; /* Better mono fonts */
             color: var(--timer-text);
-            letter-spacing: 0.5px;
-            transition: var(--transition);
+            letter-spacing: 1px; /* Increased spacing */
+            transition: color var(--transition);
         }
 
         /* --- Gallery --- */
         .gallery-title {
             text-align: center;
-            font-size: 24px;
+            font-size: clamp(1.5rem, 5vw, 1.875rem); /* 24px to 30px */
             font-weight: 700;
             color: var(--heading-color);
-            margin: 35px 0 15px 0;
+            margin: 3rem 0 1.5rem 0; /* More top margin */
             position: relative;
-            display: inline-block;
+            display: inline-block; /* Allow centering trick */
             left: 50%;
             transform: translateX(-50%);
         }
@@ -384,207 +422,233 @@
         .gallery-title::after {
             content: '';
             position: absolute;
-            bottom: -6px;
-            left: 25%;
-            width: 50%;
+            bottom: -8px; /* Slightly lower */
+            left: 15%; /* Wider underline */
+            width: 70%;
             height: 3px;
             background: var(--accent-gradient);
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-            margin: 25px auto;
-            padding: 20px 15px;
+            /* More responsive columns */
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.25rem; /* 20px gap */
+            margin: 2rem auto; /* Consistent margin */
+            padding: 1.5rem; /* More padding */
             background-color: var(--card-bg);
             border-radius: var(--card-radius);
-            box-shadow: 0 6px 20px var(--shadow-color);
-            max-width: 100%;
+            box-shadow: 0 8px 25px var(--shadow-color);
             transition: var(--transition);
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(20px); /* For fade-in animation */
+            animation: fadeIn 0.6s ease-out 0.3s forwards;
         }
 
         .gallery-photo {
-            aspect-ratio: 3/4;
+            aspect-ratio: 3/4; /* Maintain aspect ratio */
             background-color: var(--bg-color);
-            border-radius: 12px;
+            border-radius: 12px; /* Slightly smaller radius for inner elements */
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px var(--shadow-color);
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            transition: var(--transition);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             touch-action: manipulation;
         }
-        .gallery-photo::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0);
-            transition: var(--transition);
-        }
+        /* Remove ::after pseudo-element for overlay, simplify hover */
         .gallery-photo:hover {
-            transform: scale(1.04) translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: scale(1.04) translateY(-6px); /* Slightly more pronounced hover */
+            box-shadow: 0 12px 25px var(--shadow-hover-color);
         }
-        .gallery-photo:hover::after {
-            background-color: rgba(0, 0, 0, 0.1);
+        .gallery-photo:active { /* Add active state */
+            transform: scale(0.98);
+            transition-duration: 0.1s;
         }
         .gallery-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
+            transition: transform 0.4s ease; /* Slightly slower image zoom */
         }
         .gallery-photo:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         /* --- Video Section --- */
         .video-firs {
-            margin: 25px auto; /* Spacing */
-            border-radius: var(--card-radius); /* Match other elements */
-            overflow: hidden; /* Clip video to rounded corners */
-            box-shadow: 0 6px 20px var(--shadow-color); /* Consistent shadow */
-            max-width: 100%; /* Ensure it stays within container bounds */
-            background-color: #000; /* Fallback background */
+            margin: 2rem auto; /* Consistent margin */
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            max-width: 100%;
+            background-color: #000; /* Black background while loading */
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(20px); /* For fade-in animation */
             animation: fadeIn 0.6s ease-out 0.4s forwards; /* Delayed fade in */
-            opacity: 0; /* Start hidden for animation */
+            /* Maintain aspect ratio for video */
+            aspect-ratio: 16 / 9; /* Common video aspect ratio */
+            max-height: 70vh; /* Prevent excessive height */
         }
 
         .video-firs video {
-            display: block; /* Remove extra space below video */
-            width: 100%; /* Fill container width */
-            height: auto; /* Maintain aspect ratio */
-            max-height: 60vh; /* Limit height on tall screens */
-            object-fit: cover; /* Cover the area, cropping if needed */
+            display: block;
+            width: 100%;
+            height: 100%; /* Fill the container */
+            object-fit: cover; /* Cover the area */
+            border-radius: inherit; /* Inherit border radius */
         }
 
-        /* --- FAB --- */
-        .add-memory {
+        /* --- Floating Action Buttons (FABs) --- */
+        .fab-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
+            bottom: 1.5rem; /* 24px */
+            right: 1.5rem;
+            z-index: 90;
+            display: flex;
+            flex-direction: column; /* Stack if multiple FABs needed */
+            gap: 1rem; /* Space between FABs */
+        }
+
+        .fab {
+            width: 50px; /* Standardized size */
+            height: 50px;
             background-color: var(--fab-bg);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--fab-color);
-            font-size: 24px;
+            font-size: 1.5rem; /* 24px */
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            box-shadow: 0 6px 20px var(--shadow-color);
             cursor: pointer;
-            z-index: 90;
-            transition: var(--transition);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
             border: none;
             touch-action: manipulation;
         }
-        .add-memory:hover, .add-memory:active {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        .fab:hover {
+            transform: scale(1.1) rotate(10deg); /* Add rotation on hover */
+            box-shadow: 0 8px 25px var(--shadow-hover-color);
+        }
+        .fab:active {
+             transform: scale(0.95);
+             transition-duration: 0.1s;
         }
 
-        /* --- Custom Audio Button --- */
-        #audio-control-button {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 36px;
-            height: 36px;
-            background-color: var(--fab-bg);
-            color: var(--fab-color);
-            border-radius: 50%;
-            border: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            z-index: 90;
-            transition: var(--transition);
-            touch-action: manipulation;
+        /* Specific FABs */
+        .add-memory {
+            /* Positioned via container */
         }
-        #audio-control-button:hover, #audio-control-button:active {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+
+        #audio-control-button {
+            position: fixed; /* Keep separate positioning for audio */
+            bottom: 1.5rem;
+            left: 1.5rem;
+            width: 44px; /* Slightly smaller */
+            height: 44px;
+            font-size: 1.125rem; /* 18px */
+            /* Inherit common FAB styles */
         }
 
         #background-music {
+            /* Keep hidden */
             position: absolute;
             left: -9999px;
         }
 
-        /* Menu container styling */
+        /* --- Mobile Menu Container --- */
         .menu-container {
             position: fixed;
-            top: 60px; /* Adjust based on header height */
+            top: 0; /* Align to top */
             right: 0;
+            bottom: 0; /* Full height */
             background-color: var(--card-bg);
-            width: 200px;
-            border-radius: 0 0 0 16px;
-            box-shadow: 0 10px 20px var(--shadow-color);
-            z-index: 99;
+            width: 250px; /* Wider menu */
+            max-width: 80vw; /* Max width */
+            box-shadow: -10px 0 30px var(--shadow-color);
+            z-index: 99; /* Below header overlay, above content */
             transform: translateX(100%);
-            transition: transform 0.3s ease;
-            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother easing */
+            overflow-y: auto; /* Allow scrolling if items exceed height */
+            padding-top: 60px; /* Space for header */
+            border-left: 1px solid rgba(168, 85, 247, 0.1); /* Subtle border */
+        }
+        body.dark-mode .menu-container {
+             border-left-color: rgba(233, 213, 255, 0.1);
+        }
+        .menu-container.open { /* Class to open menu */
+            transform: translateX(0);
         }
 
         .menu-item {
             display: block;
-            padding: 14px 16px;
+            padding: 1rem 1.5rem; /* More padding */
             color: var(--text-color);
             text-decoration: none;
-            border-bottom: 1px solid rgba(160, 108, 213, 0.1);
-            transition: background-color 0.3s ease;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.08); /* Subtler border */
+            transition: background-color 0.2s ease, color 0.2s ease;
             font-weight: 500;
-            font-size: 15px;
+            font-size: 1rem; /* 16px */
         }
-
+        body.dark-mode .menu-item {
+            border-bottom-color: rgba(233, 213, 255, 0.08);
+        }
         .menu-item:hover, .menu-item:active {
-            background-color: var(--bg-color);
+            background-color: rgba(168, 85, 247, 0.05); /* Subtle hover */
+            color: var(--heading-color);
         }
-
+         body.dark-mode .menu-item:hover,
+         body.dark-mode .menu-item:active {
+            background-color: rgba(233, 213, 255, 0.05);
+         }
         .menu-item:last-child {
             border-bottom: none;
         }
 
-        /* Photo viewer overlay */
+        /* --- Photo Viewer Overlay --- */
         .photo-viewer-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            inset: 0; /* Covers entire viewport */
+            background-color: rgba(0, 0, 0, 0.85); /* Slightly less opaque */
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1100; /* Above everything */
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Delay visibility transition */
+            backdrop-filter: blur(5px); /* Add blur effect */
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .photo-viewer-overlay.active {
             opacity: 1;
             visibility: visible;
+            transition: opacity 0.3s ease, visibility 0s linear 0s, backdrop-filter 0.3s ease;
+        }
+
+        .photo-viewer-content { /* Container for image and close button */
+            position: relative;
+            max-width: 95%;
+            max-height: 90%;
+            display: flex; /* Use flex for alignment if needed */
         }
 
         .photo-viewer-image {
-            max-width: 92%;
-            max-height: 85%;
+            display: block; /* Remove extra space */
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            border: 2px solid white;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
+            border: 3px solid white;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            border-radius: 8px; /* Slightly rounded corners */
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .photo-viewer-overlay.active .photo-viewer-image {
@@ -593,699 +657,667 @@
 
         .photo-viewer-close {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: transparent;
+            top: -15px; /* Position relative to content */
+            right: -15px;
+            background-color: rgba(30, 30, 30, 0.7); /* Semi-transparent background */
             border: none;
             color: white;
-            font-size: 36px;
+            font-size: 1.75rem; /* 28px */
             cursor: pointer;
-            transition: transform 0.3s ease;
-            width: 40px;
-            height: 40px;
+            transition: transform 0.3s ease, background-color 0.2s ease;
+            width: 44px;
+            height: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
+            border-radius: 50%;
+            line-height: 1; /* Ensure '×' is centered */
             touch-action: manipulation;
         }
 
         .photo-viewer-close:hover, .photo-viewer-close:active {
-            transform: rotate(90deg);
+            transform: rotate(90deg) scale(1.1);
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
         /* --- Media Queries --- */
-        /* Small devices (landscape phones) */
-        @media (min-width: 576px) {
-            header { padding: 15px 20px; }
-            .logo { font-size: 22px; }
-            .logo::before { font-size: 20px; }
-            .photo-carousel { height: 280px; }
-            .gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .container { padding: 20px 15px; padding-bottom: 90px;}
-        }
-
-        /* Medium devices (tablets) */
+        /* Medium devices (tablets, landscape phones) */
         @media (min-width: 768px) {
-            header { padding: 16px 35px; }
-            .logo { font-size: 24px; }
-            .dark-mode-toggle { width: 36px; height: 36px; }
-            .menu-icon { width: 24px; height: 18px; }
-            .menu-container { top: 65px; } /* Adjust based on header height */
-            .photo-carousel { height: 320px; border-radius: 18px; }
-            .photo-circle { width: 120px; height: 120px; }
-            .heart {
-                width: 42px;
-                height: 42px;
-                margin: 0 12px;
-            }
-            .heart:before, .heart:after {
-                width: 42px;
-                height: 42px;
-            }
-            .heart:before { top: -21px; }
-            .heart:after { left: 21px; }
-            .timer-text { font-size: 16px; letter-spacing: 1px; }
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 20px;
-                padding: 25px 20px;
-            }
-            .couple-section { padding: 30px 20px; }
-            .gallery-title { font-size: 26px; }
-            .add-memory, #audio-control-button {
-                width: 48px;
-                height: 48px;
-                bottom: 25px;
-            }
-            .add-memory { right: 25px; }
-            #audio-control-button { left: 25px; font-size: 18px; }
-             .container { padding-bottom: 100px;} /* More space for larger FABs */
+            header { padding: 1rem 2rem; }
+            .logo { font-size: 1.5rem; /* 24px */ }
+            .dark-mode-toggle { width: 44px; height: 44px; }
+            .menu-icon { width: 26px; height: 20px; }
+            .menu-container { padding-top: 70px; /* Adjust based on header height */ }
+            /* Carousel height handled by aspect-ratio, but can set max-height */
+            .photo-circle { width: 130px; height: 130px; }
+            .heart { width: 46px; height: 46px; }
+            .heart::before { top: -23px; width: 46px; height: 46px; }
+            .heart::after { left: 23px; width: 46px; height: 46px; }
+            .gallery { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+            .couple-section { padding: 2.5rem 1.5rem; }
+            .fab-container { bottom: 2rem; right: 2rem; }
+            .fab { width: 56px; height: 56px; }
+            #audio-control-button { left: 2rem; bottom: 2rem; width: 48px; height: 48px; font-size: 1.25rem; }
+            .container { padding-bottom: 7rem;}
         }
 
         /* Large devices (desktops) */
         @media (min-width: 992px) {
-            .photo-carousel { height: 380px; }
-            .photo-circle { width: 140px; height: 140px; }
-            .heart {
-                width: 48px;
-                height: 48px;
-                margin: 0 15px;
-            }
-            .heart:before, .heart:after {
-                width: 48px;
-                height: 48px;
-            }
-            .heart:before { top: -24px; }
-            .heart:after { left: 24px; }
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 24px;
-                padding: 30px 25px;
-            }
+             /* Adjust photo circle size if needed */
+             /* .photo-circle { width: 150px; height: 150px; } */
+            .gallery { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.75rem; }
         }
 
-        /* Animation for page elements */
+        /* --- Animation --- */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .couple-section, .gallery, .photo-carousel {
-            animation: fadeIn 0.6s ease-out forwards;
-             opacity: 0; /* Start hidden for animation */
+        /* --- Accessibility --- */
+        /* Improve focus visibility */
+        :focus-visible {
+            outline: 3px solid var(--accent-color-1);
+            outline-offset: 2px;
+            border-radius: 4px; /* Match outline shape */
+        }
+        body.dark-mode :focus-visible {
+             outline-color: var(--accent-color-2);
+        }
+        /* Ensure buttons look like buttons when focused */
+        .arrow:focus-visible, .dot:focus-visible, .fab:focus-visible, .menu-icon:focus-visible, .dark-mode-toggle:focus-visible, .photo-viewer-close:focus-visible {
+             /* Reuse focus-visible style */
+        }
+        /* Hide outline if using custom focus styles */
+        *:focus {
+            outline: none;
         }
 
-        .gallery {
-            animation-delay: 0.2s;
-        }
-
-        /* Touch improvements for mobile */
+        /* Touch improvements (already applied via touch-action) */
         @media (hover: none) {
-            .arrow, .dot, .gallery-photo, .add-memory, #audio-control-button, .photo-viewer-close {
-                cursor: default;
-            }
-
-            .gallery-photo:active {
-                transform: scale(0.98);
-            }
-
-            .arrow:active {
-                background-color: rgba(0, 0, 0, 0.3);
+            .arrow:hover, .dot:hover, .gallery-photo:hover, .fab:hover, #audio-control-button:hover, .photo-viewer-close:hover, .menu-icon:hover, .dark-mode-toggle:hover {
+                /* Disable hover effects on touch devices if desired, but often better to keep */
+                /* background-color: initial; transform: none; */
             }
         }
     </style>
 </head>
 <body>
     <!-- Audio Element -->
-    <audio id="background-music" loop>
-        <!-- IMPORTANT: Ensure this path is correct relative to your HTML file -->
-        <source src="/photo/ssstik.io_1744239298601.mp3" type="audio/mpeg">
+    <audio id="background-music" loop preload="metadata">
+        <!-- IMPORTANT: Update this path to your actual audio file -->
+        <source src="photo/ssstik.io_1744239298601.mp3" type="audio/mpeg">
         Your browser doesn't support the audio element.
     </audio>
-    <!-- Custom Audio Control Button -->
-    <button id="audio-control-button" aria-label="Play/Pause Music">
-        ▶️
-    </button>
 
     <header>
-        <div class="logo"> </div>
+        <a href="#" class="logo">
+            <span class="logo-text">Story sne</span>
+        </a>
         <div class="header-controls">
             <button class="dark-mode-toggle" aria-label="Toggle Dark Mode"></button>
-            <div class="menu-icon" aria-label="Toggle Menu">
+            <button class="menu-icon" aria-label="Toggle Menu" aria-expanded="false" aria-controls="menu-container">
                 <div class="menu-line"></div>
                 <div class="menu-line"></div>
                 <div class="menu-line"></div>
-            </div>
+            </button>
         </div>
     </header>
 
-    <div class="container">
-        <div class="photo-carousel" aria-label="Milestones Carousel">
-            <!-- Slide 1 -->
-            <div class="carousel-slide active">
-                <div class="carousel-image-container">
-                    <img src="photo/a5.jpg" alt="Our First Date" loading="lazy">
+    <!-- Main Content Area -->
+    <main>
+        <div class="container">
+            <div class="photo-carousel" aria-roledescription="carousel" aria-label="Milestones Carousel">
+                <div class="carousel-slide active" role="group" aria-label="Slide 1 of 5">
+                    <div class="carousel-image-container">
+                        <img src="photo/a5.jpg" alt="Couple smiling outdoors" loading="lazy">
+                    </div>
                 </div>
-            </div>
-            <!-- Slide 2 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                     <img src="photo/a2.jpg" alt="Special Moment" loading="lazy">
+                <div class="carousel-slide" role="group" aria-label="Slide 2 of 5">
+                    <div class="carousel-image-container">
+                         <img src="photo/a2.jpg" alt="Close-up happy moment" loading="lazy">
+                    </div>
                 </div>
-            </div>
-            <!-- Slide 3 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                    <img src="photo/a3.jpg" alt="Our Wedding Day" loading="lazy">
+                <div class="carousel-slide" role="group" aria-label="Slide 3 of 5">
+                    <div class="carousel-image-container">
+                        <img src="photo/a3.jpg" alt="Formal event picture" loading="lazy">
+                    </div>
                 </div>
-            </div>
-            <!-- Slide 4 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                    <img src="photo/a4.jpg" alt="Celebration" loading="lazy">
+                <div class="carousel-slide" role="group" aria-label="Slide 4 of 5">
+                    <div class="carousel-image-container">
+                        <img src="photo/a4.jpg" alt="Candid moment together" loading="lazy">
+                    </div>
                 </div>
-            </div>
-            <!-- Slide 5 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                    <img src="photo/a1.jpg" alt="Our First Meeting" loading="lazy">
+                <div class="carousel-slide" role="group" aria-label="Slide 5 of 5">
+                    <div class="carousel-image-container">
+                        <img src="photo/a1.jpg" alt="Scenic view with couple" loading="lazy">
+                    </div>
+                </div>
+
+                <button class="arrow arrow-left" aria-label="Previous Slide">‹</button> <!-- Use proper arrow chars -->
+                <button class="arrow arrow-right" aria-label="Next Slide">›</button>
+                <div class="carousel-dots" role="tablist" aria-label="Carousel Navigation">
+                    <button class="dot active" data-index="0" role="tab" aria-selected="true" aria-controls="carousel-slide-1" aria-label="Go to slide 1"></button>
+                    <button class="dot" data-index="1" role="tab" aria-selected="false" aria-controls="carousel-slide-2" aria-label="Go to slide 2"></button>
+                    <button class="dot" data-index="2" role="tab" aria-selected="false" aria-controls="carousel-slide-3" aria-label="Go to slide 3"></button>
+                    <button class="dot" data-index="3" role="tab" aria-selected="false" aria-controls="carousel-slide-4" aria-label="Go to slide 4"></button>
+                    <button class="dot" data-index="4" role="tab" aria-selected="false" aria-controls="carousel-slide-5" aria-label="Go to slide 5"></button>
                 </div>
             </div>
 
-            <div class="arrow arrow-left" aria-label="Previous Slide">←</div>
-            <div class="arrow arrow-right" aria-label="Next Slide">→</div>
-            <div class="carousel-dots">
-                 <!-- Dots should match the number of slides -->
-                <button class="dot active" data-index="0" aria-label="Go to slide 1"></button>
-                <button class="dot" data-index="1" aria-label="Go to slide 2"></button>
-                <button class="dot" data-index="2" aria-label="Go to slide 3"></button>
-                <button class="dot" data-index="3" aria-label="Go to slide 4"></button>
-                <button class="dot" data-index="4" aria-label="Go to slide 5"></button> <!-- Added dot for 5th slide -->
-            </div>
-        </div>
+            <section class="couple-section" aria-labelledby="couple-heading">
+                 <h2 id="couple-heading" class="visually-hidden">Us</h2> <!-- Hidden heading for screen readers -->
+                <div class="photos-container">
+                    <div class="photo-circle">
+                        <!-- IMPORTANT: Update image and alt text -->
+                        <img src="photo/1.jpg" alt="Firs's photo" loading="lazy">
+                    </div>
+                    <div class="heart-container">
+                        <div class="heart" aria-hidden="true"></div>
+                    </div>
+                    <div class="photo-circle">
+                         <!-- IMPORTANT: Update image and alt text -->
+                        <img src="photo/2.jpg" alt="Partner's photo" loading="lazy">
+                    </div>
+                </div>
+                <div class="timer-container">
+                    <p class="timer-text" aria-live="polite">Loading time together...</p>
+                </div>
+            </section>
 
-        <section class="couple-section" aria-labelledby="couple-heading">
-            <div class="photos-container">
-                <div class="photo-circle">
-                    <img src="photo/1.jpg" alt="Your Photo" loading="lazy">
-                </div>
-                <div class="heart-container">
-                    <div class="heart"></div>
-                </div>
-                <div class="photo-circle">
-                    <img src="photo/2.jpg" alt="Their Photo" loading="lazy">
-                </div>
-            </div>
-            <div class="timer-container">
-                <p class="timer-text" aria-live="polite">Loading...</p>
-            </div>
-        </section>
+            <section class="gallery-section" aria-labelledby="gallery-heading">
+                <h2 id="gallery-heading" class="gallery-title">Our Memories</h2>
+                <div class="gallery">
+                    <!-- IMPORTANT: Update images and alt text -->
+                    <div class="gallery-photo" tabindex="0" role="button" aria-label="View Memory 1">
+                        <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 1 - A sunny day picnic" loading="lazy">
+                    </div>
+                    <div class="gallery-photo" tabindex="0" role="button" aria-label="View Memory 2">
+                        <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 2 - Evening walk by the bridge" loading="lazy">
+                    </div>
+                     <div class="gallery-photo" tabindex="0" role="button" aria-label="View Memory 3">
+                        <img src="https://i.pinimg.com/474x/ba/49/05/ba4905d51092c24538959b1d128b7625.jpg" alt="Memory 3 - Cozy moment indoors" loading="lazy">
+                    </div>
+                    <div class="gallery-photo" tabindex="0" role="button" aria-label="View Memory 4">
+                        <img src="https://i.pinimg.com/736x/fc/e6/98/fce69870373e3012c21baccc536c2d0c.jpg" alt="Memory 4 - Travel adventure snapshot" loading="lazy">
+                    </div>
 
-        <section class="gallery-section" aria-labelledby="gallery-heading">
-            <h2 id="gallery-heading" class="gallery-title">Our Memories</h2>
-            <div class="gallery">
-                <!-- Add your gallery images here -->
-                <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 1 - Description" loading="lazy">
                 </div>
-                <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 2 - Description" loading="lazy">
-                </div>
-                 <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/474x/ba/49/05/ba4905d51092c24538959b1d128b7625.jpg" alt="Memory 3 - Description" loading="lazy">
-                </div>
-                <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/fc/e6/98/fce69870373e3012c21baccc536c2d0c.jpg" alt="Memory 4 - Description" loading="lazy">
-                </div>
+            </section>
 
-            </div>
-        </section>
 
-        <!-- Video Section -->
-        <div class="video-firs">
-            <!-- IMPORTANT: Ensure this path is correct! -->
-            <video src="/video/IMG_0448.MOV" autoplay loop ="metadata">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-          <div class="container">
-        <div class="photo-carousel" aria-label="Milestones Carousel">
-            <!-- Slide 1 -->
-            <div class="carousel-slide active">
-                <div class="carousel-image-container">
-                    <img src="photo/a6.jpg" alt="Our First Date" loading="lazy">
-                </div>
-            </div>
-            <!-- Slide 2 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                     <img src="photo/a2.jpg" alt="Special Moment" loading="lazy">
-                </div>
-            </div>
-            <!-- Slide 3 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                    <img src="photo/a3.jpg" alt="Our Wedding Day" loading="lazy">
-                </div>
-            </div>
-            <!-- Slide 4 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                    <img src="photo/a4.jpg" alt="Celebration" loading="lazy">
-                </div>
-            </div>
-            <!-- Slide 5 -->
-            <div class="carousel-slide">
-                <div class="carousel-image-container">
-                    <img src="photo/a1.jpg" alt="Our First Meeting" loading="lazy">
-                </div>
-            </div>
-            
-            <div class="arrow arrow-left" aria-label="Previous Slide">←</div>
-            <div class="arrow arrow-right" aria-label="Next Slide">→</div>
-            <div class="carousel-dots">
-                 <!-- Dots should match the number of slides -->
-                <button class="dot active" data-index="0" aria-label="Go to slide 1"></button>
-                <button class="dot" data-index="1" aria-label="Go to slide 2"></button>
-                <button class="dot" data-index="2" aria-label="Go to slide 3"></button>
-                <button class="dot" data-index="3" aria-label="Go to slide 4"></button>
-                <button class="dot" data-index="4" aria-label="Go to slide 5"></button> <!-- Added dot for 5th slide -->
-            </div>
-        </div>
-    <button class="add-memory" aria-label="Add New Memory">+</button>
+            <!-- Video Section -->
+            <section class="video-firs" aria-label="Our Special Video">
+                <!-- IMPORTANT: Ensure this path is correct! -->
+                <video controls preload="metadata" poster="https://i.pinimg.com/originals/2f/0f/82/2f0f82e4fb0dee8efd75bee975496eab.gif"> <!-- Added controls, preload, and poster -->
+                    <source src="video/IMG_0448.MOV" type="video/mp4"> <!-- Assuming MOV might need conversion or broader type -->
+                    <source src="video/IMG_0448.webm" type="https://i.pinimg.com/originals/b5/56/db/b556dbccd65b2cb08f632b2592289816.gif"> <!-- Add other formats for compatibility -->
+                    Your browser does not support the video tag. Consider <a href="video/IMG_0448.MOV">downloading the video</a>.
+                </video>
+            </section>
 
-    <div class="menu-container">
+        </div><!-- End .container -->
+    </main>
+
+    <!-- FAB Container -->
+    <div class="fab-container">
+         <button class="fab add-memory" aria-label="Add New Memory">+</button>
+    </div>
+
+    <!-- Custom Audio Control Button (Separate positioning) -->
+    <button id="audio-control-button" class="fab" aria-label="Play Music">
+        ▶️ <!-- Play icon initially -->
+    </button>
+
+    <!-- Mobile Menu -->
+    <nav class="menu-container" id="menu-container" aria-hidden="true">
         <a href="#" class="menu-item">Home</a>
         <a href="#" class="menu-item">Our Story</a>
-        <a href="#" class="menu-item">Milestones</a>
+        <a href="#" class="menu-item">Gallery</a>
         <a href="#" class="menu-item">Contact</a>
-    </div>
+        <!-- Add more relevant links -->
+    </nav>
+    <!-- Optional: Overlay for when menu is open -->
+    <!-- <div class="menu-overlay"></div> -->
 
 
-    <div class="photo-viewer-overlay">
-        <img class="photo-viewer-image" src="" alt="Enlarged photo">
-        <button class="photo-viewer-close" aria-label="Close Image">×</button>
+    <!-- Photo Viewer -->
+    <div class="photo-viewer-overlay" role="dialog" aria-modal="true" aria-labelledby="photo-viewer-description">
+        <div class="photo-viewer-content">
+             <img class="photo-viewer-image" src="" alt="" id="photo-viewer-description">
+             <button class="photo-viewer-close" aria-label="Close Image Viewer">×</button>
+        </div>
     </div>
+
+    <!-- Visually hidden class for accessibility text -->
+    <style>.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }</style>
 
     <script>
-       // DOM Elements
-        const darkModeToggle = document.querySelector('.dark-mode-toggle');
-        const menuIcon = document.querySelector('.menu-icon');
-        // Select ALL carousels if multiple exist, but assume one main one for now
-        const mainCarousel = document.querySelector('.container > .photo-carousel');
-        const carouselSlides = mainCarousel ? mainCarousel.querySelectorAll('.carousel-slide') : [];
-        const dotsContainer = mainCarousel ? mainCarousel.querySelector('.carousel-dots') : null;
-        const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
-        const arrowLeft = mainCarousel ? mainCarousel.querySelector('.arrow-left') : null;
-        const arrowRight = mainCarousel ? mainCarousel.querySelector('.arrow-right') : null;
-        const timerText = document.querySelector('.timer-text');
-        const audioButton = document.getElementById('audio-control-button');
-        const backgroundMusic = document.getElementById('background-music');
-        const addMemoryButton = document.querySelector('.add-memory');
-        const galleryPhotos = document.querySelectorAll('.gallery-photo');
-        const menuContainer = document.querySelector('.menu-container');
-        const photoViewerOverlay = document.querySelector('.photo-viewer-overlay');
-        const photoViewerImage = document.querySelector('.photo-viewer-image');
-        const photoViewerClose = document.querySelector('.photo-viewer-close');
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
 
-        // Check device type
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+            // --- DOM Element Selection ---
+            const body = document.body;
+            const darkModeToggle = document.querySelector('.dark-mode-toggle');
+            const menuIcon = document.querySelector('.menu-icon');
+            const menuContainer = document.querySelector('.menu-container');
+            const mainCarousel = document.querySelector('.container > .photo-carousel'); // Be specific
+            const carouselSlides = mainCarousel ? Array.from(mainCarousel.querySelectorAll('.carousel-slide')) : [];
+            const dotsContainer = mainCarousel ? mainCarousel.querySelector('.carousel-dots') : null;
+            const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.dot')) : [];
+            const arrowLeft = mainCarousel ? mainCarousel.querySelector('.arrow-left') : null;
+            const arrowRight = mainCarousel ? mainCarousel.querySelector('.arrow-right') : null;
+            const timerText = document.querySelector('.timer-text');
+            const audioButton = document.getElementById('audio-control-button');
+            const backgroundMusic = document.getElementById('background-music');
+            const addMemoryButton = document.querySelector('.add-memory');
+            const galleryPhotos = Array.from(document.querySelectorAll('.gallery-photo'));
+            const photoViewerOverlay = document.querySelector('.photo-viewer-overlay');
+            const photoViewerImage = document.querySelector('.photo-viewer-image');
+            const photoViewerClose = document.querySelector('.photo-viewer-close');
 
-        // Initialize variables
-        let currentSlide = 0;
-        let isMenuOpen = false;
-        let startX, moveX;
-        let touchStartTime = 0;
-        let isAudioPlaying = false;
-        let autoSlideInterval = null; // Initialize as null
+            // --- State Variables ---
+            let currentSlide = 0;
+            let isMenuOpen = false;
+            let touchStartX = 0;
+            let touchMoveX = 0;
+            let touchStartTime = 0;
+            const SWIPE_THRESHOLD = 50; // Min pixels for swipe
+            const SWIPE_TIME_LIMIT = 500; // Max ms for swipe
+            let isAudioPlaying = false;
+            let autoSlideInterval = null;
+            const AUTO_SLIDE_DELAY = 5000; // 5 seconds
 
-        // Start date for timer (replace with your actual date)
-        const startDate = new Date('2024-04-08T00:00:00'); // Example: April 8, 2024
+            // --- Configuration ---
+            // IMPORTANT: Set your relationship start date here!
+            const startDate = new Date('2025-04-08T00:00:00'); // Example: April 8, 2023
 
-        // --- Initialization ---
-        function initializePage() {
-            loadDarkModePreference();
-            updateTimer();
-            setInterval(updateTimer, 1000);
-            if (carouselSlides.length > 1) { // Only start carousel if slides exist
-                 startAutoSlide();
-            }
-            setupEventListeners();
-            optimizeForDevice();
-            handleLazyLoading();
-            preventZooming();
-            initialFadeIn();
-            registerServiceWorker();
-        }
-
-        // --- Dark Mode ---
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode.toString());
-        }
-
-        function loadDarkModePreference() {
-            const savedDarkMode = localStorage.getItem('darkMode');
-            if (savedDarkMode === 'true') {
-                document.body.classList.add('dark-mode');
-            }
-        }
-
-        // --- Menu ---
-        function toggleMenu() {
-            menuIcon.classList.toggle('active');
-            isMenuOpen = !isMenuOpen;
-            menuContainer.style.transform = isMenuOpen ? 'translateX(0)' : 'translateX(100%)';
-            // Optional: Add ARIA attribute for accessibility
-            menuIcon.setAttribute('aria-expanded', isMenuOpen);
-        }
-
-        function closeMenuOnClickOutside(e) {
-            if (isMenuOpen && !menuContainer.contains(e.target) && !menuIcon.contains(e.target)) {
-                toggleMenu();
-            }
-        }
-
-        // --- Carousel ---
-        function showSlide(index) {
-            if (!carouselSlides || carouselSlides.length === 0) return; // Safety check
-
-            carouselSlides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-
-            if (index >= carouselSlides.length) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = carouselSlides.length - 1;
-            } else {
-                currentSlide = index;
+            // --- Initialization ---
+            function initializePage() {
+                loadDarkModePreference();
+                updateTimer(); // Initial timer update
+                const timerInterval = setInterval(updateTimer, 1000); // Update timer every second
+                if (carouselSlides.length > 1) {
+                    setupCarouselAccessibility();
+                    startAutoSlide();
+                }
+                setupEventListeners();
+                // initialFadeIn(); // Animations are handled by CSS now
+                // registerServiceWorker(); // Uncomment if you have a service worker
             }
 
-            if (carouselSlides[currentSlide]) {
-                 carouselSlides[currentSlide].classList.add('active');
-            }
-             if (dots[currentSlide]) {
-                 dots[currentSlide].classList.add('active');
-             }
-        }
-
-        function nextSlide() {
-            showSlide(currentSlide + 1);
-        }
-
-        function prevSlide() {
-            showSlide(currentSlide - 1);
-        }
-
-        function goToSlide(index) {
-            showSlide(index);
-        }
-
-        // Carousel Touch Handling
-        function handleTouchStart(e) {
-             if (!mainCarousel) return;
-            startX = e.touches[0].clientX;
-            touchStartTime = Date.now();
-            clearInterval(autoSlideInterval); // Pause auto-slide on touch
-        }
-
-        function handleTouchMove(e) {
-             if (!mainCarousel) return;
-             if (!startX) return; // Only track move if startX is set
-             moveX = e.touches[0].clientX;
-        }
-
-        function handleTouchEnd() {
-             if (!mainCarousel || !startX || !moveX) return;
-
-             const diffX = startX - moveX;
-             const timeDiff = Date.now() - touchStartTime;
-
-             // Swipe threshold
-             if (Math.abs(diffX) > 50 && timeDiff < 500) { // Increased time threshold slightly
-                 if (diffX > 0) { // Swipe left
-                     nextSlide();
-                 } else { // Swipe right
-                     prevSlide();
-                 }
-             }
-
-             startX = null;
-             moveX = null;
-             startAutoSlide(); // Resume auto-slide
-        }
-
-        // Carousel Auto-slide
-        function startAutoSlide() {
-            // Clear existing interval before starting a new one
-            clearInterval(autoSlideInterval);
-            if (carouselSlides && carouselSlides.length > 1) { // Only if multiple slides
-                autoSlideInterval = setInterval(nextSlide, 5000); // 5 seconds
-            }
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-             if (carouselSlides && carouselSlides.length > 1) {
-                startAutoSlide();
-            }
-        }
-
-        // --- Timer ---
-        function updateTimer() {
-             if (!timerText) return; // Safety check
-            const now = new Date();
-            const diff = now - startDate;
-
-             // If the date is in the future, show countdown or a message
-            if (diff < 0) {
-                // Example: Countdown (optional)
-                // const days = Math.floor(-diff / (1000 * 60 * 60 * 24));
-                // timerText.textContent = `Starting in ${days} days!`;
-                timerText.textContent = "Our journey begins soon!";
-                return;
+            // --- Dark Mode ---
+            function toggleDarkMode() {
+                body.classList.toggle('dark-mode');
+                const isDarkMode = body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
+                // Update ARIA attribute if needed (though button text changes via CSS)
+                darkModeToggle.setAttribute('aria-pressed', isDarkMode);
             }
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            function loadDarkModePreference() {
+                const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+                if (savedDarkMode) {
+                    body.classList.add('dark-mode');
+                }
+                darkModeToggle.setAttribute('aria-pressed', savedDarkMode);
+            }
 
-            timerText.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s together`;
-        }
+            // --- Mobile Menu ---
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                menuIcon.classList.toggle('active', isMenuOpen);
+                menuContainer.classList.toggle('open', isMenuOpen);
+                menuIcon.setAttribute('aria-expanded', isMenuOpen);
+                menuContainer.setAttribute('aria-hidden', !isMenuOpen);
+                // Optional: Trap focus within the menu when open
+                // manageFocusTrap(isMenuOpen);
+                 // Prevent body scroll when menu is open
+                 body.style.overflow = isMenuOpen ? 'hidden' : '';
+            }
 
-        // --- Audio ---
-        async function toggleAudio() {
-            if (!backgroundMusic || !audioButton) return;
-
-            if (isAudioPlaying) {
-                backgroundMusic.pause();
-                audioButton.innerHTML = '▶️';
-                audioButton.setAttribute('aria-label', 'Play Music');
-            } else {
-                try {
-                    await backgroundMusic.play();
-                    audioButton.innerHTML = '⏸️';
-                    audioButton.setAttribute('aria-label', 'Pause Music');
-                } catch (error) {
-                    console.error('Audio play failed:', error);
-                    // Reset state if play fails
-                    isAudioPlaying = false;
-                    audioButton.innerHTML = '▶️';
-                    audioButton.setAttribute('aria-label', 'Play Music');
-                    // Optionally notify the user they might need to interact first
-                    // alert("Couldn't play audio automatically. Please click play again.");
+            function closeMenu() {
+                if (isMenuOpen) {
+                    toggleMenu();
                 }
             }
-            isAudioPlaying = !isAudioPlaying;
-        }
 
-        // --- Gallery Photo Viewer ---
-        function openPhotoViewer(photoElement) {
-            const img = photoElement.querySelector('img');
-            if (!img || !photoViewerImage || !photoViewerOverlay) return;
-
-            const imgSrc = img.src;
-            const imgAlt = img.alt || "Enlarged gallery image"; // Fallback alt text
-
-            photoViewerImage.src = imgSrc;
-            photoViewerImage.alt = imgAlt;
-            photoViewerOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            photoViewerClose.focus(); // Focus the close button for accessibility
-        }
-
-        function closePhotoViewer() {
-            if (!photoViewerOverlay) return;
-            photoViewerOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-        }
-
-        function handlePhotoViewerClick(e) {
-            if (e.target === photoViewerOverlay) { // Click on background only
-                closePhotoViewer();
+            function closeMenuOnClickOutside(event) {
+                if (isMenuOpen && !menuContainer.contains(event.target) && !menuIcon.contains(event.target)) {
+                    closeMenu();
+                }
             }
-        }
 
-        function handleKeyDown(e) {
-             // Close viewer on Escape key
-            if (e.key === 'Escape' && photoViewerOverlay && photoViewerOverlay.classList.contains('active')) {
-                closePhotoViewer();
+            // --- Carousel ---
+            function showSlide(index, focusDot = false) {
+                if (!carouselSlides || carouselSlides.length === 0) return;
+
+                // Normalize index
+                const newIndex = (index + carouselSlides.length) % carouselSlides.length;
+                if (newIndex === currentSlide) return; // No change
+
+                carouselSlides[currentSlide].classList.remove('active');
+                dots[currentSlide].classList.remove('active');
+                dots[currentSlide].setAttribute('aria-selected', 'false');
+                 dots[currentSlide].tabIndex = -1; // Make inactive dots unfocusable via keyboard
+
+                currentSlide = newIndex;
+
+                carouselSlides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+                dots[currentSlide].setAttribute('aria-selected', 'true');
+                 dots[currentSlide].tabIndex = 0; // Make active dot focusable
+
+                if (focusDot) {
+                    dots[currentSlide].focus();
+                }
+                 // Announce slide change to screen readers
+                 // Consider adding a visually hidden live region updated here
             }
-             // Open viewer on Enter/Space for focused gallery item
-             if ((e.key === 'Enter' || e.key === ' ') && document.activeElement.classList.contains('gallery-photo')) {
-                 e.preventDefault();
-                 openPhotoViewer(document.activeElement);
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            function goToSlide(index) {
+                showSlide(index, true); // Focus the dot when manually selected
+            }
+
+            function setupCarouselAccessibility() {
+                 // Initial setup
+                 dots.forEach((dot, index) => {
+                     dot.setAttribute('role', 'tab');
+                     dot.setAttribute('aria-controls', `carousel-slide-${index + 1}`);
+                     dot.tabIndex = (index === 0) ? 0 : -1; // Only first dot focusable initially
+                 });
+                 carouselSlides.forEach((slide, index) => {
+                     slide.setAttribute('role', 'tabpanel');
+                     slide.id = `carousel-slide-${index + 1}`;
+                 });
+            }
+
+            // Carousel Touch Handling
+            function handleTouchStart(e) {
+                 if (e.touches.length > 1) return; // Ignore multi-touch
+                touchStartX = e.touches[0].clientX;
+                touchMoveX = touchStartX; // Initialize moveX
+                touchStartTime = Date.now();
+                pauseAutoSlide(); // Pause auto-slide on touch
+            }
+
+            function handleTouchMove(e) {
+                 if (!touchStartX) return;
+                 touchMoveX = e.touches[0].clientX;
+            }
+
+            function handleTouchEnd() {
+                 if (!touchStartX) return;
+
+                 const diffX = touchStartX - touchMoveX;
+                 const timeDiff = Date.now() - touchStartTime;
+
+                 if (Math.abs(diffX) >= SWIPE_THRESHOLD && timeDiff < SWIPE_TIME_LIMIT) {
+                     if (diffX > 0) { // Swipe left
+                         nextSlide();
+                     } else { // Swipe right
+                         prevSlide();
+                     }
+                 }
+
+                 touchStartX = 0; // Reset start position
+                 touchMoveX = 0;
+                 startAutoSlide(); // Resume auto-slide
+            }
+
+            // Carousel Auto-slide
+            function startAutoSlide() {
+                if (autoSlideInterval) clearInterval(autoSlideInterval); // Clear existing interval
+                if (carouselSlides.length > 1) {
+                    autoSlideInterval = setInterval(() => {
+                        nextSlide();
+                    }, AUTO_SLIDE_DELAY);
+                }
+            }
+             function pauseAutoSlide() {
+                 clearInterval(autoSlideInterval);
+                 autoSlideInterval = null;
              }
-        }
 
-        // --- Add Memory Button ---
-        function handleAddMemoryClick() {
-            // Replace with actual functionality (e.g., open modal)
-            alert('Feature coming soon: Add your special memories here!');
-        }
-
-        // --- Performance & Device Optimization ---
-        function optimizeForDevice() {
-            if (isMobile) {
-                // Lighter transitions for mobile
-                document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
-
-                 // Optimize touch feedback
-                document.querySelectorAll('.gallery-photo, .dot, .arrow, .add-memory, #audio-control-button, .menu-icon, .dark-mode-toggle')
-                    .forEach(elem => {
-                        elem.addEventListener('touchstart', function() {
-                            this.style.transition = 'transform 0.1s ease'; // Faster feedback
-                            this.style.transform = 'scale(0.95)';
-                        }, { passive: true });
-
-                        elem.addEventListener('touchend', function() {
-                            this.style.transform = '';
-                             // Restore original transition after feedback
-                             setTimeout(() => this.style.transition = '', 100);
-                        }, { passive: true });
-                    });
+            function resetAutoSlide() {
+                pauseAutoSlide();
+                startAutoSlide();
             }
-            // Orientation change listener (optional, example adjustment)
-            window.addEventListener('orientationchange', adjustLayout);
-            window.addEventListener('resize', adjustLayout); // Also handle resize
-             adjustLayout(); // Initial call
-        }
 
-        function adjustLayout() {
-            // Example: Adjust carousel height based on viewport height/width
-            // This is a simple example, adjust logic as needed
-            if (!mainCarousel) return;
-            const vh = window.innerHeight;
-            const vw = window.innerWidth;
-            let targetHeight;
-            if (vw > vh && vw > 768) { // Landscape tablet/desktop
-                 targetHeight = Math.min(380, vh * 0.6);
-            } else if (vw > 768) { // Portrait tablet/desktop
-                 targetHeight = Math.min(320, vh * 0.4);
-            } else { // Mobile
-                 targetHeight = Math.min(280, vh * 0.35);
+            // --- Timer ---
+            function updateTimer() {
+                 if (!timerText) return;
+
+                 const now = new Date();
+                 let diff = now - startDate;
+
+                 if (diff < 0) {
+                     timerText.textContent = "Our journey begins soon!";
+                     // Optional: Add countdown logic here if desired
+                     // const days = Math.floor(-diff / (1000 * 60 * 60 * 24)); ...
+                     return;
+                 }
+
+                 // Calculate time components
+                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                 diff -= days * (1000 * 60 * 60 * 24);
+                 const hours = Math.floor(diff / (1000 * 60 * 60));
+                 diff -= hours * (1000 * 60 * 60);
+                 const minutes = Math.floor(diff / (1000 * 60));
+                 diff -= minutes * (1000 * 60);
+                 const seconds = Math.floor(diff / 1000);
+
+                 // Format the string
+                 timerText.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s together`;
             }
-             mainCarousel.style.height = `${targetHeight}px`;
-        }
 
+            // --- Audio ---
+            async function toggleAudio() {
+                if (!backgroundMusic || !audioButton) return;
 
-        function handleLazyLoading() {
-            if ('loading' in HTMLImageElement.prototype) {
-                // Native lazy loading supported
-                 document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-                     // Optionally add checks if image is already loaded if needed
-                 });
-            } else {
-                // Fallback: Implement or use a library for lazy loading
-                console.warn('Native lazy loading not supported. Consider adding a polyfill or library.');
+                if (isAudioPlaying) {
+                    backgroundMusic.pause();
+                    audioButton.innerHTML = '▶️'; // Play icon
+                    audioButton.setAttribute('aria-label', 'Play Music');
+                } else {
+                    try {
+                         // Attempt to play - might fail initially without user interaction
+                         await backgroundMusic.play();
+                         audioButton.innerHTML = '⏸️'; // Pause icon
+                         audioButton.setAttribute('aria-label', 'Pause Music');
+                    } catch (error) {
+                         console.error('Audio play failed:', error);
+                         // Let user know they might need to interact
+                         if (error.name === 'NotAllowedError') {
+                             // alert("Click the play button again to start the music.");
+                         }
+                         // Ensure state is correct even if play fails
+                         isAudioPlaying = false; // Keep it false
+                         audioButton.innerHTML = '▶️';
+                         audioButton.setAttribute('aria-label', 'Play Music');
+                         return; // Exit function early
+                    }
+                }
+                // Only flip the state if play didn't throw an error or if pausing
+                isAudioPlaying = !isAudioPlaying;
             }
-        }
+             // Update icon based on actual play/pause events (more robust)
+             function handleAudioPlay() {
+                 isAudioPlaying = true;
+                 audioButton.innerHTML = '⏸️';
+                 audioButton.setAttribute('aria-label', 'Pause Music');
+             }
+             function handleAudioPause() {
+                 isAudioPlaying = false;
+                 audioButton.innerHTML = '▶️';
+                 audioButton.setAttribute('aria-label', 'Play Music');
+             }
 
-        function preventZooming() {
-            // Prevent double-tap zoom on interactive elements on mobile
-            document.querySelectorAll('.gallery-photo, .arrow, .dot, .add-memory, #audio-control-button, .menu-icon, .dark-mode-toggle, .photo-viewer-close')
-                .forEach(elem => {
-                    elem.style.touchAction = 'manipulation';
-                });
-        }
 
-        function initialFadeIn() {
-            // Staggered fade-in for elements on load
-             const elementsToFade = document.querySelectorAll('.couple-section, .gallery, .photo-carousel, .video-firs');
-             elementsToFade.forEach((elem, index) => {
-                 elem.style.animationDelay = `${index * 0.15}s`; // Stagger the animation start
-                 elem.style.opacity = 0; // Ensure it starts hidden before animation CSS takes over
-             });
-             // Trigger reflow to ensure animation plays - use requestAnimationFrame for better timing
-             requestAnimationFrame(() => {
-                 elementsToFade.forEach(elem => {
-                     // The animation itself is handled by CSS (.couple-section, .gallery, etc)
-                 });
-             });
-        }
+            // --- Gallery Photo Viewer ---
+            let previouslyFocusedElement = null; // To restore focus
 
-        // --- Service Worker ---
-        function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/service-worker.js') // Ensure this path is correct
-                        .then(registration => {
-                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                        })
-                        .catch(error => {
-                            console.error('ServiceWorker registration failed: ', error);
+            function openPhotoViewer(photoElement) {
+                const img = photoElement.querySelector('img');
+                if (!img || !photoViewerImage || !photoViewerOverlay) return;
+
+                const imgSrc = img.src; // Use already loaded src for viewer
+                const imgAlt = img.alt || "Enlarged gallery image";
+
+                photoViewerImage.src = imgSrc;
+                photoViewerImage.alt = imgAlt;
+                 photoViewerImage.setAttribute('aria-labelledby', 'photo-viewer-description'); // Link alt text
+
+                previouslyFocusedElement = document.activeElement; // Store focus
+
+                photoViewerOverlay.classList.add('active');
+                body.style.overflow = 'hidden'; // Prevent background scrolling
+                photoViewerClose.focus(); // Focus the close button
+            }
+
+            function closePhotoViewer() {
+                if (!photoViewerOverlay || !photoViewerOverlay.classList.contains('active')) return;
+                photoViewerOverlay.classList.remove('active');
+                body.style.overflow = ''; // Restore scrolling
+                if (previouslyFocusedElement) {
+                    previouslyFocusedElement.focus(); // Restore focus
+                    previouslyFocusedElement = null;
+                }
+            }
+
+            function handlePhotoViewerKey(e) {
+                if (!photoViewerOverlay.classList.contains('active')) return;
+
+                if (e.key === 'Escape') {
+                    closePhotoViewer();
+                }
+                 // Add ArrowLeft/Right for navigation if multiple images were planned
+            }
+
+            function handleGalleryItemKey(e, item) {
+                 if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault(); // Prevent default space scroll
+                      openPhotoViewer(item);
+                 }
+            }
+
+
+            // --- Add Memory Button ---
+            function handleAddMemoryClick() {
+                // Implement actual functionality (e.g., show a form/modal)
+                alert('Feature under development: Add your special memory here!');
+            }
+
+            // --- Service Worker ---
+            function registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('/service-worker.js') // Ensure path is correct
+                        .then(registration => console.log('ServiceWorker registration successful:', registration.scope))
+                        .catch(error => console.error('ServiceWorker registration failed:', error));
+                } else {
+                    console.log('Service workers are not supported.');
+                }
+            }
+
+            // --- Event Listeners Setup ---
+            function setupEventListeners() {
+                if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+
+                if (menuIcon) menuIcon.addEventListener('click', toggleMenu);
+                document.addEventListener('click', closeMenuOnClickOutside); // Close menu on click outside
+
+                // Carousel listeners
+                if (arrowLeft) arrowLeft.addEventListener('click', () => { resetAutoSlide(); prevSlide(); });
+                if (arrowRight) arrowRight.addEventListener('click', () => { resetAutoSlide(); nextSlide(); });
+                if (dots) {
+                    dots.forEach((dot) => {
+                        dot.addEventListener('click', (e) => {
+                            const index = parseInt(e.currentTarget.dataset.index, 10);
+                            resetAutoSlide();
+                            goToSlide(index);
                         });
+                         // Add keydown listener for dots (accessibility)
+                         dot.addEventListener('keydown', (e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                   e.preventDefault();
+                                   const index = parseInt(e.currentTarget.dataset.index, 10);
+                                   resetAutoSlide();
+                                   goToSlide(index);
+                              } else if (e.key === 'ArrowRight') {
+                                   resetAutoSlide();
+                                   nextSlide();
+                                   dots[currentSlide].focus();
+                              } else if (e.key === 'ArrowLeft') {
+                                   resetAutoSlide();
+                                   prevSlide();
+                                   dots[currentSlide].focus();
+                              }
+                         });
+                    });
+                }
+                if (mainCarousel) {
+                     // Use non-passive for touchstart if preventDefault might be needed (rarely)
+                     mainCarousel.addEventListener('touchstart', handleTouchStart, { passive: true });
+                     mainCarousel.addEventListener('touchmove', handleTouchMove, { passive: true });
+                     mainCarousel.addEventListener('touchend', handleTouchEnd);
+                     // Pause on hover/focus
+                     mainCarousel.addEventListener('mouseenter', pauseAutoSlide);
+                     mainCarousel.addEventListener('mouseleave', startAutoSlide);
+                     mainCarousel.addEventListener('focusin', pauseAutoSlide);
+                     mainCarousel.addEventListener('focusout', startAutoSlide);
+                }
+
+                // Audio listener
+                if (audioButton) audioButton.addEventListener('click', toggleAudio);
+                 if (backgroundMusic) {
+                     backgroundMusic.addEventListener('play', handleAudioPlay);
+                     backgroundMusic.addEventListener('pause', handleAudioPause);
+                     backgroundMusic.addEventListener('ended', handleAudioPause); // Reset icon if music ends naturally
+                 }
+
+                // Gallery listeners
+                galleryPhotos.forEach(photo => {
+                    photo.addEventListener('click', () => openPhotoViewer(photo));
+                     photo.addEventListener('keydown', (e) => handleGalleryItemKey(e, photo));
                 });
-            } else {
-                 console.log('Service workers are not supported.');
-            }
-        }
 
-        // --- Event Listeners Setup ---
-        function setupEventListeners() {
-            if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
-            if (menuIcon) menuIcon.addEventListener('click', toggleMenu);
-            document.addEventListener('click', closeMenuOnClickOutside);
+                // Photo viewer listeners
+                if (photoViewerClose) photoViewerClose.addEventListener('click', closePhotoViewer);
+                if (photoViewerOverlay) {
+                     // Close on click *outside* the image content
+                     photoViewerOverlay.addEventListener('click', (e) => {
+                          if (e.target === photoViewerOverlay) { // Click on the backdrop itself
+                               closePhotoViewer();
+                          }
+                     });
+                }
 
-            // Carousel listeners (only if carousel exists)
-            if (arrowLeft) arrowLeft.addEventListener('click', () => { resetAutoSlide(); prevSlide(); });
-            if (arrowRight) arrowRight.addEventListener('click', () => { resetAutoSlide(); nextSlide(); });
-            if (dots) {
-                dots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => { resetAutoSlide(); goToSlide(index); });
+                // Global keydown listener (primarily for photo viewer escape)
+                document.addEventListener('keydown', handlePhotoViewerKey);
+
+                // Add Memory button listener
+                if (addMemoryButton) addMemoryButton.addEventListener('click', handleAddMemoryClick);
+
+                // Close menu on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && isMenuOpen) {
+                        closeMenu();
+                    }
                 });
             }
-            if (mainCarousel) {
-                 mainCarousel.addEventListener('touchstart', handleTouchStart, { passive: true });
-                 mainCarousel.addEventListener('touchmove', handleTouchMove, { passive: true });
-                 mainCarousel.addEventListener('touchend', handleTouchEnd, { passive: true });
-            }
 
-            // Audio listener
-            if (audioButton) audioButton.addEventListener('click', toggleAudio);
+            // --- Run Initialization ---
+            initializePage();
 
-            // Gallery listeners
-            galleryPhotos.forEach(photo => {
-                photo.addEventListener('click', () => openPhotoViewer(photo));
-                 // Keydown handled globally
-            });
-
-            // Photo viewer listeners
-            if (photoViewerClose) photoViewerClose.addEventListener('click', closePhotoViewer);
-            if (photoViewerOverlay) photoViewerOverlay.addEventListener('click', handlePhotoViewerClick);
-
-            // Global keydown listener
-            document.addEventListener('keydown', handleKeyDown);
-
-            // Add Memory button listener
-            if (addMemoryButton) addMemoryButton.addEventListener('click', handleAddMemoryClick);
-        }
-
-        // --- Run Initialization ---
-        document.addEventListener('DOMContentLoaded', initializePage);
-
+        }); // End DOMContentLoaded
     </script>
 </body>
 </html>
