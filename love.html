@@ -7,7 +7,7 @@
     <style>
         /* --- CSS Variables for Theming --- */
         :root {
-            --bg-color: #f8f5ff; /* Lighter, softer background */
+            --bg-color: #ffffff; /* Lighter, softer background */
             --header-bg: rgba(250, 245, 255, 0.95); /* More subtle header */
             --card-bg: #ffffff;
             --accent-color-1: #9d4edd; /* More vibrant purple */
@@ -157,6 +157,8 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 15px 10px;
+            /* Added padding-bottom to avoid FAB overlap */
+            padding-bottom: 80px;
         }
 
         /* --- Carousel --- */
@@ -198,7 +200,7 @@
             object-fit: cover;
             display: block;
         }
-        
+
         .carousel-text-content {
             color: white;
             font-size: clamp(24px, 5vw, 36px);
@@ -209,7 +211,7 @@
             width: 100%;
             height: 100%;
         }
-        
+
         .carousel-text-content img {
             width: 100%;
             height: 100%;
@@ -378,7 +380,7 @@
             left: 50%;
             transform: translateX(-50%);
         }
-        
+
         .gallery-title::after {
             content: '';
             position: absolute;
@@ -441,6 +443,26 @@
             transform: scale(1.05);
         }
 
+        /* --- Video Section --- */
+        .video-firs {
+            margin: 25px auto; /* Spacing */
+            border-radius: var(--card-radius); /* Match other elements */
+            overflow: hidden; /* Clip video to rounded corners */
+            box-shadow: 0 6px 20px var(--shadow-color); /* Consistent shadow */
+            max-width: 100%; /* Ensure it stays within container bounds */
+            background-color: #000; /* Fallback background */
+            animation: fadeIn 0.6s ease-out 0.4s forwards; /* Delayed fade in */
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        .video-firs video {
+            display: block; /* Remove extra space below video */
+            width: 100%; /* Fill container width */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 60vh; /* Limit height on tall screens */
+            object-fit: cover; /* Cover the area, cropping if needed */
+        }
+
         /* --- FAB --- */
         .add-memory {
             position: fixed;
@@ -493,16 +515,16 @@
             transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
-        
+
         #background-music {
             position: absolute;
             left: -9999px;
         }
-        
+
         /* Menu container styling */
         .menu-container {
             position: fixed;
-            top: 60px;
+            top: 60px; /* Adjust based on header height */
             right: 0;
             background-color: var(--card-bg);
             width: 200px;
@@ -513,7 +535,7 @@
             transition: transform 0.3s ease;
             overflow: hidden;
         }
-        
+
         .menu-item {
             display: block;
             padding: 14px 16px;
@@ -524,15 +546,15 @@
             font-weight: 500;
             font-size: 15px;
         }
-        
+
         .menu-item:hover, .menu-item:active {
             background-color: var(--bg-color);
         }
-        
+
         .menu-item:last-child {
             border-bottom: none;
         }
-        
+
         /* Photo viewer overlay */
         .photo-viewer-overlay {
             position: fixed;
@@ -549,12 +571,12 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        
+
         .photo-viewer-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .photo-viewer-image {
             max-width: 92%;
             max-height: 85%;
@@ -564,11 +586,11 @@
             transform: scale(0.9);
             transition: transform 0.3s ease;
         }
-        
+
         .photo-viewer-overlay.active .photo-viewer-image {
             transform: scale(1);
         }
-        
+
         .photo-viewer-close {
             position: absolute;
             top: 15px;
@@ -586,7 +608,7 @@
             align-items: center;
             touch-action: manipulation;
         }
-        
+
         .photo-viewer-close:hover, .photo-viewer-close:active {
             transform: rotate(90deg);
         }
@@ -599,91 +621,94 @@
             .logo::before { font-size: 20px; }
             .photo-carousel { height: 280px; }
             .gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .container { padding: 20px 15px; }
+            .container { padding: 20px 15px; padding-bottom: 90px;}
         }
-        
+
         /* Medium devices (tablets) */
         @media (min-width: 768px) {
             header { padding: 16px 35px; }
             .logo { font-size: 24px; }
             .dark-mode-toggle { width: 36px; height: 36px; }
             .menu-icon { width: 24px; height: 18px; }
+            .menu-container { top: 65px; } /* Adjust based on header height */
             .photo-carousel { height: 320px; border-radius: 18px; }
             .photo-circle { width: 120px; height: 120px; }
-            .heart { 
-                width: 42px; 
+            .heart {
+                width: 42px;
                 height: 42px;
                 margin: 0 12px;
             }
-            .heart:before, .heart:after { 
-                width: 42px; 
-                height: 42px; 
+            .heart:before, .heart:after {
+                width: 42px;
+                height: 42px;
             }
             .heart:before { top: -21px; }
             .heart:after { left: 21px; }
             .timer-text { font-size: 16px; letter-spacing: 1px; }
-            .gallery { 
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
                 gap: 20px;
                 padding: 25px 20px;
             }
             .couple-section { padding: 30px 20px; }
             .gallery-title { font-size: 26px; }
-            .add-memory, #audio-control-button { 
-                width: 48px; 
+            .add-memory, #audio-control-button {
+                width: 48px;
                 height: 48px;
                 bottom: 25px;
             }
             .add-memory { right: 25px; }
             #audio-control-button { left: 25px; font-size: 18px; }
+             .container { padding-bottom: 100px;} /* More space for larger FABs */
         }
-        
+
         /* Large devices (desktops) */
         @media (min-width: 992px) {
             .photo-carousel { height: 380px; }
             .photo-circle { width: 140px; height: 140px; }
-            .heart { 
-                width: 48px; 
+            .heart {
+                width: 48px;
                 height: 48px;
                 margin: 0 15px;
             }
-            .heart:before, .heart:after { 
-                width: 48px; 
-                height: 48px; 
+            .heart:before, .heart:after {
+                width: 48px;
+                height: 48px;
             }
             .heart:before { top: -24px; }
             .heart:after { left: 24px; }
-            .gallery { 
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
                 gap: 24px;
                 padding: 30px 25px;
             }
         }
-        
+
         /* Animation for page elements */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .couple-section, .gallery, .photo-carousel {
             animation: fadeIn 0.6s ease-out forwards;
+             opacity: 0; /* Start hidden for animation */
         }
-        
+
         .gallery {
             animation-delay: 0.2s;
         }
-        
+
         /* Touch improvements for mobile */
         @media (hover: none) {
             .arrow, .dot, .gallery-photo, .add-memory, #audio-control-button, .photo-viewer-close {
                 cursor: default;
             }
-            
+
             .gallery-photo:active {
                 transform: scale(0.98);
             }
-            
+
             .arrow:active {
                 background-color: rgba(0, 0, 0, 0.3);
             }
@@ -693,6 +718,7 @@
 <body>
     <!-- Audio Element -->
     <audio id="background-music" loop>
+        <!-- IMPORTANT: Ensure this path is correct relative to your HTML file -->
         <source src="/photo/ssstik.io_1744239298601.mp3" type="audio/mpeg">
         Your browser doesn't support the audio element.
     </audio>
@@ -715,51 +741,59 @@
 
     <div class="container">
         <div class="photo-carousel" aria-label="Milestones Carousel">
-            <!-- Slide 1: Using Image -->
+            <!-- Slide 1 -->
             <div class="carousel-slide active">
                 <div class="carousel-image-container">
-                    <img src="photo/a1.jpg" alt="Our First Date">
+                    <img src="photo/a5.jpg" alt="Our First Date" loading="lazy">
                 </div>
             </div>
-            <!-- Slide 2: Using Text -->
-            <div class="carousel-slide">
-                <div class="carousel-text-content">
-                    <img src="photo/a2.jpg" alt="Special Moment">
-                </div>
-            </div>
-            <!-- Slide 3: Using Image -->
+            <!-- Slide 2 -->
             <div class="carousel-slide">
                 <div class="carousel-image-container">
-                    <img src="photo/a3.jpg" alt="Our Wedding Day">
+                     <img src="photo/a2.jpg" alt="Special Moment" loading="lazy">
                 </div>
             </div>
-            <!-- Slide 4: Using Text -->
+            <!-- Slide 3 -->
             <div class="carousel-slide">
-                <div class="carousel-text-content">
-                    <img src="photo/a4.jpg" alt="Celebration">
+                <div class="carousel-image-container">
+                    <img src="photo/a3.jpg" alt="Our Wedding Day" loading="lazy">
+                </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                    <img src="photo/a4.jpg" alt="Celebration" loading="lazy">
+                </div>
+            </div>
+            <!-- Slide 5 -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                    <img src="photo/a1.jpg" alt="Our First Meeting" loading="lazy">
                 </div>
             </div>
 
             <div class="arrow arrow-left" aria-label="Previous Slide">←</div>
             <div class="arrow arrow-right" aria-label="Next Slide">→</div>
             <div class="carousel-dots">
+                 <!-- Dots should match the number of slides -->
                 <button class="dot active" data-index="0" aria-label="Go to slide 1"></button>
                 <button class="dot" data-index="1" aria-label="Go to slide 2"></button>
                 <button class="dot" data-index="2" aria-label="Go to slide 3"></button>
                 <button class="dot" data-index="3" aria-label="Go to slide 4"></button>
+                <button class="dot" data-index="4" aria-label="Go to slide 5"></button> <!-- Added dot for 5th slide -->
             </div>
         </div>
 
         <section class="couple-section" aria-labelledby="couple-heading">
             <div class="photos-container">
                 <div class="photo-circle">
-                    <img src="photo/1.jpg" alt="Your Photo">
+                    <img src="photo/1.jpg" alt="Your Photo" loading="lazy">
                 </div>
                 <div class="heart-container">
                     <div class="heart"></div>
                 </div>
                 <div class="photo-circle">
-                    <img src="photo/2.jpg" alt="Their Photo">
+                    <img src="photo/2.jpg" alt="Their Photo" loading="lazy">
                 </div>
             </div>
             <div class="timer-container">
@@ -770,28 +804,74 @@
         <section class="gallery-section" aria-labelledby="gallery-heading">
             <h2 id="gallery-heading" class="gallery-title">Our Memories</h2>
             <div class="gallery">
+                <!-- Add your gallery images here -->
                 <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 1 - Description">
+                    <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 1 - Description" loading="lazy">
                 </div>
                 <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 2 - Description">
+                    <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 2 - Description" loading="lazy">
+                </div>
+                 <div class="gallery-photo" tabindex="0">
+                    <img src="https://i.pinimg.com/474x/ba/49/05/ba4905d51092c24538959b1d128b7625.jpg" alt="Memory 3 - Description" loading="lazy">
                 </div>
                 <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/474x/ba/49/05/ba4905d51092c24538959b1d128b7625.jpg" alt="Memory 3 - Description">
+                    <img src="https://i.pinimg.com/736x/fc/e6/98/fce69870373e3012c21baccc536c2d0c.jpg" alt="Memory 4 - Description" loading="lazy">
                 </div>
-                <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/fc/e6/98/fce69870373e3012c21baccc536c2d0c.jpg" alt="Memory 4 - Description">
-                </div>
-                <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/4b/40/2d/4b402d67a62c4652c5757a048f933a76.jpg" alt="Memory 5 - Description">
-                </div>
-                <div class="gallery-photo" tabindex="0">
-                    <img src="https://i.pinimg.com/736x/db/19/0c/db190c3b174447a038696a00780c9e60.jpg" alt="Memory 6 - Description">
-                </div>
+
             </div>
         </section>
-    </div>
 
+        <!-- Video Section -->
+        <div class="video-firs">
+            <!-- IMPORTANT: Ensure this path is correct! -->
+            <video src="/video/IMG_0448.MOV" autoplay loop ="metadata">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+          <div class="container">
+        <div class="photo-carousel" aria-label="Milestones Carousel">
+            <!-- Slide 1 -->
+            <div class="carousel-slide active">
+                <div class="carousel-image-container">
+                    <img src="photo/a6.jpg" alt="Our First Date" loading="lazy">
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                     <img src="photo/a2.jpg" alt="Special Moment" loading="lazy">
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                    <img src="photo/a3.jpg" alt="Our Wedding Day" loading="lazy">
+                </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                    <img src="photo/a4.jpg" alt="Celebration" loading="lazy">
+                </div>
+            </div>
+            <!-- Slide 5 -->
+            <div class="carousel-slide">
+                <div class="carousel-image-container">
+                    <img src="photo/a1.jpg" alt="Our First Meeting" loading="lazy">
+                </div>
+            </div>
+            
+            <div class="arrow arrow-left" aria-label="Previous Slide">←</div>
+            <div class="arrow arrow-right" aria-label="Next Slide">→</div>
+            <div class="carousel-dots">
+                 <!-- Dots should match the number of slides -->
+                <button class="dot active" data-index="0" aria-label="Go to slide 1"></button>
+                <button class="dot" data-index="1" aria-label="Go to slide 2"></button>
+                <button class="dot" data-index="2" aria-label="Go to slide 3"></button>
+                <button class="dot" data-index="3" aria-label="Go to slide 4"></button>
+                <button class="dot" data-index="4" aria-label="Go to slide 5"></button> <!-- Added dot for 5th slide -->
+            </div>
+        </div>
     <button class="add-memory" aria-label="Add New Memory">+</button>
 
     <div class="menu-container">
@@ -801,6 +881,7 @@
         <a href="#" class="menu-item">Contact</a>
     </div>
 
+
     <div class="photo-viewer-overlay">
         <img class="photo-viewer-image" src="" alt="Enlarged photo">
         <button class="photo-viewer-close" aria-label="Close Image">×</button>
@@ -808,337 +889,403 @@
 
     <script>
        // DOM Elements
-const darkModeToggle = document.querySelector('.dark-mode-toggle');
-const menuIcon = document.querySelector('.menu-icon');
-const carousel = document.querySelector('.photo-carousel');
-const carouselSlides = document.querySelectorAll('.carousel-slide');
-const dots = document.querySelectorAll('.dot');
-const arrowLeft = document.querySelector('.arrow-left');
-const arrowRight = document.querySelector('.arrow-right');
-const timerText = document.querySelector('.timer-text');
-const audioButton = document.getElementById('audio-control-button');
-const backgroundMusic = document.getElementById('background-music');
-const addMemoryButton = document.querySelector('.add-memory');
-const galleryPhotos = document.querySelectorAll('.gallery-photo');
-const menuContainer = document.querySelector('.menu-container');
-const photoViewerOverlay = document.querySelector('.photo-viewer-overlay');
-const photoViewerImage = document.querySelector('.photo-viewer-image');
-const photoViewerClose = document.querySelector('.photo-viewer-close');
+        const darkModeToggle = document.querySelector('.dark-mode-toggle');
+        const menuIcon = document.querySelector('.menu-icon');
+        // Select ALL carousels if multiple exist, but assume one main one for now
+        const mainCarousel = document.querySelector('.container > .photo-carousel');
+        const carouselSlides = mainCarousel ? mainCarousel.querySelectorAll('.carousel-slide') : [];
+        const dotsContainer = mainCarousel ? mainCarousel.querySelector('.carousel-dots') : null;
+        const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
+        const arrowLeft = mainCarousel ? mainCarousel.querySelector('.arrow-left') : null;
+        const arrowRight = mainCarousel ? mainCarousel.querySelector('.arrow-right') : null;
+        const timerText = document.querySelector('.timer-text');
+        const audioButton = document.getElementById('audio-control-button');
+        const backgroundMusic = document.getElementById('background-music');
+        const addMemoryButton = document.querySelector('.add-memory');
+        const galleryPhotos = document.querySelectorAll('.gallery-photo');
+        const menuContainer = document.querySelector('.menu-container');
+        const photoViewerOverlay = document.querySelector('.photo-viewer-overlay');
+        const photoViewerImage = document.querySelector('.photo-viewer-image');
+        const photoViewerClose = document.querySelector('.photo-viewer-close');
 
-// Check device type
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+        // Check device type
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
 
-// Initialize variables
-let currentSlide = 0;
-let isMenuOpen = false;
-let startX, moveX;
-let touchStartTime = 0;
-let isAudioPlaying = false;
-let autoSlideInterval;
+        // Initialize variables
+        let currentSlide = 0;
+        let isMenuOpen = false;
+        let startX, moveX;
+        let touchStartTime = 0;
+        let isAudioPlaying = false;
+        let autoSlideInterval = null; // Initialize as null
 
-// Start date for timer (replace with your actual date)
-const startDate = new Date('2025-04-08T00:00:00');
+        // Start date for timer (replace with your actual date)
+        const startDate = new Date('2024-04-08T00:00:00'); // Example: April 8, 2024
 
-// Dark Mode Toggle
-darkModeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    // Save user preference
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode.toString());
-});
+        // --- Initialization ---
+        function initializePage() {
+            loadDarkModePreference();
+            updateTimer();
+            setInterval(updateTimer, 1000);
+            if (carouselSlides.length > 1) { // Only start carousel if slides exist
+                 startAutoSlide();
+            }
+            setupEventListeners();
+            optimizeForDevice();
+            handleLazyLoading();
+            preventZooming();
+            initialFadeIn();
+            registerServiceWorker();
+        }
 
-// Check saved dark mode preference
-const loadDarkModePreference = () => {
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode === 'true') {
-        document.body.classList.add('dark-mode');
-    }
-};
-loadDarkModePreference();
+        // --- Dark Mode ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode.toString());
+        }
 
-// Menu Toggle
-menuIcon.addEventListener('click', toggleMenu);
-document.addEventListener('click', (e) => {
-    if (isMenuOpen && !menuContainer.contains(e.target) && !menuIcon.contains(e.target)) {
-        toggleMenu();
-    }
-});
+        function loadDarkModePreference() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+        }
 
-function toggleMenu() {
-    menuIcon.classList.toggle('active');
-    isMenuOpen = !isMenuOpen;
-    menuContainer.style.transform = isMenuOpen ? 'translateX(0)' : 'translateX(100%)';
-}
+        // --- Menu ---
+        function toggleMenu() {
+            menuIcon.classList.toggle('active');
+            isMenuOpen = !isMenuOpen;
+            menuContainer.style.transform = isMenuOpen ? 'translateX(0)' : 'translateX(100%)';
+            // Optional: Add ARIA attribute for accessibility
+            menuIcon.setAttribute('aria-expanded', isMenuOpen);
+        }
 
-// Carousel Functions
-function showSlide(index) {
-    carouselSlides.forEach(slide => {
-        slide.classList.remove('active');
-    });
-    dots.forEach(dot => {
-        dot.classList.remove('active');
-    });
-    
-    // Handle circular navigation
-    if (index >= carouselSlides.length) {
-        currentSlide = 0;
-    } else if (index < 0) {
-        currentSlide = carouselSlides.length - 1;
-    } else {
-        currentSlide = index;
-    }
-    
-    carouselSlides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-}
+        function closeMenuOnClickOutside(e) {
+            if (isMenuOpen && !menuContainer.contains(e.target) && !menuIcon.contains(e.target)) {
+                toggleMenu();
+            }
+        }
 
-// Carousel Controls - Click Events
-arrowLeft.addEventListener('click', () => {
-    resetAutoSlide();
-    showSlide(currentSlide - 1);
-});
+        // --- Carousel ---
+        function showSlide(index) {
+            if (!carouselSlides || carouselSlides.length === 0) return; // Safety check
 
-arrowRight.addEventListener('click', () => {
-    resetAutoSlide();
-    showSlide(currentSlide + 1);
-});
+            carouselSlides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
 
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        resetAutoSlide();
-        showSlide(index);
-    });
-});
+            if (index >= carouselSlides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = carouselSlides.length - 1;
+            } else {
+                currentSlide = index;
+            }
 
-// Touch events for carousel (mobile support)
-carousel.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    touchStartTime = new Date().getTime();
-    clearInterval(autoSlideInterval); // Pause auto-slide on touch
-}, { passive: true });
+            if (carouselSlides[currentSlide]) {
+                 carouselSlides[currentSlide].classList.add('active');
+            }
+             if (dots[currentSlide]) {
+                 dots[currentSlide].classList.add('active');
+             }
+        }
 
-carousel.addEventListener('touchmove', (e) => {
-    moveX = e.touches[0].clientX;
-}, { passive: true });
-
-carousel.addEventListener('touchend', (e) => {
-    if (!startX || !moveX) return;
-    
-    const diffX = startX - moveX;
-    const timeDiff = new Date().getTime() - touchStartTime;
-    
-    // Only register as swipe if movement is significant and fast enough
-    if (Math.abs(diffX) > 50 && timeDiff < 300) {
-        if (diffX > 0) {
-            // Swipe left, show next slide
+        function nextSlide() {
             showSlide(currentSlide + 1);
-        } else {
-            // Swipe right, show previous slide
+        }
+
+        function prevSlide() {
             showSlide(currentSlide - 1);
         }
-    }
-    
-    startX = null;
-    moveX = null;
-    startAutoSlide(); // Resume auto-slide after touch
-}, { passive: true });
 
-// Auto-slide functionality
-function startAutoSlide() {
-    autoSlideInterval = setInterval(() => {
-        showSlide(currentSlide + 1);
-    }, 5000); // Change slide every 5 seconds
-}
+        function goToSlide(index) {
+            showSlide(index);
+        }
 
-function resetAutoSlide() {
-    clearInterval(autoSlideInterval);
-    startAutoSlide();
-}
+        // Carousel Touch Handling
+        function handleTouchStart(e) {
+             if (!mainCarousel) return;
+            startX = e.touches[0].clientX;
+            touchStartTime = Date.now();
+            clearInterval(autoSlideInterval); // Pause auto-slide on touch
+        }
 
-// Timer Function
-function updateTimer() {
-    const now = new Date();
-    const diff = now - startDate;
-    
-    // Calculate time units
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    timerText.textContent = `${days} days, ${hours} hours, ${minutes} mins, ${seconds} secs`;
-}
+        function handleTouchMove(e) {
+             if (!mainCarousel) return;
+             if (!startX) return; // Only track move if startX is set
+             moveX = e.touches[0].clientX;
+        }
 
-// Audio Control
-audioButton.addEventListener('click', toggleAudio);
+        function handleTouchEnd() {
+             if (!mainCarousel || !startX || !moveX) return;
 
-function toggleAudio() {
-    if (isAudioPlaying) {
-        backgroundMusic.pause();
-        audioButton.innerHTML = '▶️';
-    } else {
-        // Promise to handle autoplay restrictions
-        const playPromise = backgroundMusic.play();
-        
-        if (playPromise !== undefined) {
-            playPromise
-                .then(() => {
+             const diffX = startX - moveX;
+             const timeDiff = Date.now() - touchStartTime;
+
+             // Swipe threshold
+             if (Math.abs(diffX) > 50 && timeDiff < 500) { // Increased time threshold slightly
+                 if (diffX > 0) { // Swipe left
+                     nextSlide();
+                 } else { // Swipe right
+                     prevSlide();
+                 }
+             }
+
+             startX = null;
+             moveX = null;
+             startAutoSlide(); // Resume auto-slide
+        }
+
+        // Carousel Auto-slide
+        function startAutoSlide() {
+            // Clear existing interval before starting a new one
+            clearInterval(autoSlideInterval);
+            if (carouselSlides && carouselSlides.length > 1) { // Only if multiple slides
+                autoSlideInterval = setInterval(nextSlide, 5000); // 5 seconds
+            }
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+             if (carouselSlides && carouselSlides.length > 1) {
+                startAutoSlide();
+            }
+        }
+
+        // --- Timer ---
+        function updateTimer() {
+             if (!timerText) return; // Safety check
+            const now = new Date();
+            const diff = now - startDate;
+
+             // If the date is in the future, show countdown or a message
+            if (diff < 0) {
+                // Example: Countdown (optional)
+                // const days = Math.floor(-diff / (1000 * 60 * 60 * 24));
+                // timerText.textContent = `Starting in ${days} days!`;
+                timerText.textContent = "Our journey begins soon!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            timerText.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s together`;
+        }
+
+        // --- Audio ---
+        async function toggleAudio() {
+            if (!backgroundMusic || !audioButton) return;
+
+            if (isAudioPlaying) {
+                backgroundMusic.pause();
+                audioButton.innerHTML = '▶️';
+                audioButton.setAttribute('aria-label', 'Play Music');
+            } else {
+                try {
+                    await backgroundMusic.play();
                     audioButton.innerHTML = '⏸️';
-                })
-                .catch(error => {
-                    console.log('Autoplay prevented:', error);
-                    // Handle autoplay prevention (common on mobile)
-                    audioButton.innerHTML = '▶️';
+                    audioButton.setAttribute('aria-label', 'Pause Music');
+                } catch (error) {
+                    console.error('Audio play failed:', error);
+                    // Reset state if play fails
                     isAudioPlaying = false;
+                    audioButton.innerHTML = '▶️';
+                    audioButton.setAttribute('aria-label', 'Play Music');
+                    // Optionally notify the user they might need to interact first
+                    // alert("Couldn't play audio automatically. Please click play again.");
+                }
+            }
+            isAudioPlaying = !isAudioPlaying;
+        }
+
+        // --- Gallery Photo Viewer ---
+        function openPhotoViewer(photoElement) {
+            const img = photoElement.querySelector('img');
+            if (!img || !photoViewerImage || !photoViewerOverlay) return;
+
+            const imgSrc = img.src;
+            const imgAlt = img.alt || "Enlarged gallery image"; // Fallback alt text
+
+            photoViewerImage.src = imgSrc;
+            photoViewerImage.alt = imgAlt;
+            photoViewerOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            photoViewerClose.focus(); // Focus the close button for accessibility
+        }
+
+        function closePhotoViewer() {
+            if (!photoViewerOverlay) return;
+            photoViewerOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        function handlePhotoViewerClick(e) {
+            if (e.target === photoViewerOverlay) { // Click on background only
+                closePhotoViewer();
+            }
+        }
+
+        function handleKeyDown(e) {
+             // Close viewer on Escape key
+            if (e.key === 'Escape' && photoViewerOverlay && photoViewerOverlay.classList.contains('active')) {
+                closePhotoViewer();
+            }
+             // Open viewer on Enter/Space for focused gallery item
+             if ((e.key === 'Enter' || e.key === ' ') && document.activeElement.classList.contains('gallery-photo')) {
+                 e.preventDefault();
+                 openPhotoViewer(document.activeElement);
+             }
+        }
+
+        // --- Add Memory Button ---
+        function handleAddMemoryClick() {
+            // Replace with actual functionality (e.g., open modal)
+            alert('Feature coming soon: Add your special memories here!');
+        }
+
+        // --- Performance & Device Optimization ---
+        function optimizeForDevice() {
+            if (isMobile) {
+                // Lighter transitions for mobile
+                document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
+
+                 // Optimize touch feedback
+                document.querySelectorAll('.gallery-photo, .dot, .arrow, .add-memory, #audio-control-button, .menu-icon, .dark-mode-toggle')
+                    .forEach(elem => {
+                        elem.addEventListener('touchstart', function() {
+                            this.style.transition = 'transform 0.1s ease'; // Faster feedback
+                            this.style.transform = 'scale(0.95)';
+                        }, { passive: true });
+
+                        elem.addEventListener('touchend', function() {
+                            this.style.transform = '';
+                             // Restore original transition after feedback
+                             setTimeout(() => this.style.transition = '', 100);
+                        }, { passive: true });
+                    });
+            }
+            // Orientation change listener (optional, example adjustment)
+            window.addEventListener('orientationchange', adjustLayout);
+            window.addEventListener('resize', adjustLayout); // Also handle resize
+             adjustLayout(); // Initial call
+        }
+
+        function adjustLayout() {
+            // Example: Adjust carousel height based on viewport height/width
+            // This is a simple example, adjust logic as needed
+            if (!mainCarousel) return;
+            const vh = window.innerHeight;
+            const vw = window.innerWidth;
+            let targetHeight;
+            if (vw > vh && vw > 768) { // Landscape tablet/desktop
+                 targetHeight = Math.min(380, vh * 0.6);
+            } else if (vw > 768) { // Portrait tablet/desktop
+                 targetHeight = Math.min(320, vh * 0.4);
+            } else { // Mobile
+                 targetHeight = Math.min(280, vh * 0.35);
+            }
+             mainCarousel.style.height = `${targetHeight}px`;
+        }
+
+
+        function handleLazyLoading() {
+            if ('loading' in HTMLImageElement.prototype) {
+                // Native lazy loading supported
+                 document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                     // Optionally add checks if image is already loaded if needed
+                 });
+            } else {
+                // Fallback: Implement or use a library for lazy loading
+                console.warn('Native lazy loading not supported. Consider adding a polyfill or library.');
+            }
+        }
+
+        function preventZooming() {
+            // Prevent double-tap zoom on interactive elements on mobile
+            document.querySelectorAll('.gallery-photo, .arrow, .dot, .add-memory, #audio-control-button, .menu-icon, .dark-mode-toggle, .photo-viewer-close')
+                .forEach(elem => {
+                    elem.style.touchAction = 'manipulation';
                 });
         }
-    }
-    isAudioPlaying = !isAudioPlaying;
-}
 
-// Gallery Photo Viewer
-galleryPhotos.forEach(photo => {
-    photo.addEventListener('click', () => openPhotoViewer(photo));
-    
-    // For keyboard accessibility
-    photo.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openPhotoViewer(photo);
+        function initialFadeIn() {
+            // Staggered fade-in for elements on load
+             const elementsToFade = document.querySelectorAll('.couple-section, .gallery, .photo-carousel, .video-firs');
+             elementsToFade.forEach((elem, index) => {
+                 elem.style.animationDelay = `${index * 0.15}s`; // Stagger the animation start
+                 elem.style.opacity = 0; // Ensure it starts hidden before animation CSS takes over
+             });
+             // Trigger reflow to ensure animation plays - use requestAnimationFrame for better timing
+             requestAnimationFrame(() => {
+                 elementsToFade.forEach(elem => {
+                     // The animation itself is handled by CSS (.couple-section, .gallery, etc)
+                 });
+             });
         }
-    });
-});
 
-function openPhotoViewer(photo) {
-    const imgSrc = photo.querySelector('img').src;
-    const imgAlt = photo.querySelector('img').alt;
-    
-    photoViewerImage.src = imgSrc;
-    photoViewerImage.alt = imgAlt;
-    photoViewerOverlay.classList.add('active');
-    
-    // Prevent background scrolling
-    document.body.style.overflow = 'hidden';
-}
-
-photoViewerClose.addEventListener('click', closePhotoViewer);
-photoViewerOverlay.addEventListener('click', (e) => {
-    if (e.target === photoViewerOverlay) {
-        closePhotoViewer();
-    }
-});
-
-// Close on escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && photoViewerOverlay.classList.contains('active')) {
-        closePhotoViewer();
-    }
-});
-
-function closePhotoViewer() {
-    photoViewerOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-// Add Memory Button
-addMemoryButton.addEventListener('click', () => {
-    // For this example, we'll just show an alert
-    // In a real app, this would open a form or modal
-    alert('Feature coming soon: Add your special memories here!');
-});
-
-// Improve performance on mobile
-if (isMobile) {
-    // Reduce animation complexity on mobile
-    document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
-    
-    // Handle orientation changes for responsive layout
-    window.addEventListener('orientationchange', () => {
-        // Small delay to allow resize to complete
-        setTimeout(() => {
-            // Adjust any elements that need tweaking after orientation change
-            const viewportHeight = window.innerHeight;
-            const viewportWidth = window.innerWidth;
-            
-            // Example: Adjust carousel height based on orientation
-            if (viewportWidth > viewportHeight) {
-                // Landscape
-                carousel.style.height = Math.min(280, viewportHeight * 0.6) + 'px';
+        // --- Service Worker ---
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js') // Ensure this path is correct
+                        .then(registration => {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(error => {
+                            console.error('ServiceWorker registration failed: ', error);
+                        });
+                });
             } else {
-                // Portrait
-                carousel.style.height = Math.min(320, viewportHeight * 0.3) + 'px';
+                 console.log('Service workers are not supported.');
             }
-        }, 200);
-    });
-    
-    // Optimize touch interfaces
-    document.querySelectorAll('.gallery-photo, .dot, .add-memory, #audio-control-button')
-        .forEach(elem => {
-            elem.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.95)';
-            }, { passive: true });
-            
-            elem.addEventListener('touchend', function() {
-                this.style.transform = '';
-            }, { passive: true });
-        });
-} else {
-    // Desktop specific enhancements
-    // Add hover effects that might be performance-intensive on mobile
-    galleryPhotos.forEach(photo => {
-        photo.addEventListener('mouseenter', () => {
-            photo.style.transform = 'scale(1.04) translateY(-5px)';
-        });
-        
-        photo.addEventListener('mouseleave', () => {
-            photo.style.transform = '';
-        });
-    });
-}
+        }
 
-// Initialize
-updateTimer();
-setInterval(updateTimer, 1000);
-startAutoSlide();
+        // --- Event Listeners Setup ---
+        function setupEventListeners() {
+            if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+            if (menuIcon) menuIcon.addEventListener('click', toggleMenu);
+            document.addEventListener('click', closeMenuOnClickOutside);
 
-// Add lazy loading for images to improve performance
-if ('loading' in HTMLImageElement.prototype) {
-    // Browser supports native lazy loading
-    document.querySelectorAll('img').forEach(img => {
-        img.loading = 'lazy';
-    });
-} else {
-    // Fallback for browsers that don't support lazy loading
-    // You could add a lazy loading library here
-    console.log('Browser does not support native lazy loading');
-}
+            // Carousel listeners (only if carousel exists)
+            if (arrowLeft) arrowLeft.addEventListener('click', () => { resetAutoSlide(); prevSlide(); });
+            if (arrowRight) arrowRight.addEventListener('click', () => { resetAutoSlide(); nextSlide(); });
+            if (dots) {
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => { resetAutoSlide(); goToSlide(index); });
+                });
+            }
+            if (mainCarousel) {
+                 mainCarousel.addEventListener('touchstart', handleTouchStart, { passive: true });
+                 mainCarousel.addEventListener('touchmove', handleTouchMove, { passive: true });
+                 mainCarousel.addEventListener('touchend', handleTouchEnd, { passive: true });
+            }
 
-// Prevent accidental zooming on mobile devices when double-tapping interactive elements
-document.querySelectorAll('.gallery-photo, .arrow, .dot, .add-memory, #audio-control-button')
-    .forEach(elem => {
-        elem.style.touchAction = 'manipulation';
-    });
+            // Audio listener
+            if (audioButton) audioButton.addEventListener('click', toggleAudio);
 
-// Handle initial page load optimization
-document.addEventListener('DOMContentLoaded', () => {
-    // Fade in content gradually to avoid jank
-    setTimeout(() => {
-        document.querySelectorAll('.couple-section, .gallery, .photo-carousel').forEach(elem => {
-            elem.style.opacity = '1';
-        });
-    }, 100);
-});
-
-// Service Worker Registration for PWA support
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-                console.log('ServiceWorker registration successful');
-            })
-            .catch(error => {
-                console.log('ServiceWorker registration failed:', error);
+            // Gallery listeners
+            galleryPhotos.forEach(photo => {
+                photo.addEventListener('click', () => openPhotoViewer(photo));
+                 // Keydown handled globally
             });
-    });
-}
+
+            // Photo viewer listeners
+            if (photoViewerClose) photoViewerClose.addEventListener('click', closePhotoViewer);
+            if (photoViewerOverlay) photoViewerOverlay.addEventListener('click', handlePhotoViewerClick);
+
+            // Global keydown listener
+            document.addEventListener('keydown', handleKeyDown);
+
+            // Add Memory button listener
+            if (addMemoryButton) addMemoryButton.addEventListener('click', handleAddMemoryClick);
+        }
+
+        // --- Run Initialization ---
+        document.addEventListener('DOMContentLoaded', initializePage);
+
     </script>
+</body>
+</html>
